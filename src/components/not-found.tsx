@@ -22,5 +22,5 @@ export default function NoPostsFound() {
         Parece que não conseguimos encontrar o que você está procurando.
       </p>
     </div>
-  );
+  )
 }

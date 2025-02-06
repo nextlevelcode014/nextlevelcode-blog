@@ -1,5 +1,5 @@
-import { Header } from '@/Components/Header'
-import PostsList from '@/Components/PostList'
+import { Header } from '@/components/header'
+import PostsList from '@/components/posts-list'
 import { stylesComponets } from '@/styles'
 import Link from 'next/link'
 export const revalidate = 60 // Revalida os dados a cada 60 segundos
@@ -64,7 +64,6 @@ export default function Home() {
           Aqui você encontra as últimas atualizações, artigos e muito mais.
           Escolha um post abaixo para começar a leitura.
         </p>
-        <PostsList />
       </main>
     </div>
   )

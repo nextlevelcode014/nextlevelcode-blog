@@ -1,20 +1,20 @@
-"use client";
+'use client'
 
-import { useForm } from "react-hook-form";
-import Image from "next/image";
-import Link from "next/link";
-import NoPostsFound from "./PostNotFound";
-import ErrorMessage from "./ErrorMessage";
-import { usePosts } from "@/services/queries";
+import { useForm } from 'react-hook-form'
+import Image from 'next/image'
+import Link from 'next/link'
+import { usePosts } from '../services/queries'
+import MessageError from './message-error'
+import NoPostsFound from './not-found'
 
 interface SearchFormData {
-  searchQuery: string;
+  searchQuery: string
 }
 
 export default function PostsList() {
-  const posts = usePosts();
-  const { register, watch } = useForm<SearchFormData>();
-  const searchQuery = watch("searchQuery", "").toLowerCase();
+  const posts = usePosts()
+  const { register, watch } = useForm<SearchFormData>()
+  const searchQuery = watch('searchQuery', '').toLowerCase()
 
   if (posts.isLoading) {
     return (
@@ -24,23 +24,23 @@ export default function PostsList() {
           Carregando posts...
         </span>
       </div>
-    );
+    )
   }
 
   if (posts.isError) {
-    return <ErrorMessage message={posts.error.message} />;
+    return <MessageError message={posts.error.message} />
   }
 
   const filteredPosts = posts.data?.filter((post) =>
-    post.title.toLowerCase().includes(searchQuery)
-  );
+    post.title.toLowerCase().includes(searchQuery),
+  )
 
   return (
     <>
       <div className="relative mb-8">
         <input
           type="text"
-          {...register("searchQuery")}
+          {...register('searchQuery')}
           className="rounded-full pl-10 pr-4 py-2 bg-[#0f0f0f] text-gray-300 focus:outline-none focus:ring-2 focus:ring-teal-500 w-full placeholder-gray-500"
           placeholder="Pesquisar posts..."
         />
@@ -86,7 +86,6 @@ export default function PostsList() {
                 </p>
                 <Link
                   href={`/posts/${post.name}`}
-                  replace
                   className="text-teal-500 hover:text-teal-400 transition duration-200 underline"
                 >
                   Leia mais
@@ -99,5 +98,5 @@ export default function PostsList() {
         )}
       </section>
     </>
-  );
+  )
 }

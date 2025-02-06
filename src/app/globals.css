@@ -9,3 +9,12 @@
 .responsive-reading {
   @apply text-3xl md:text-3xl lg:text-xl text-slate-300;
 }
+
+/* Adicione estas classes personalizadas se necessário */
+.icon-hover-effect {
+  transition: transform 0.2s ease-in-out;
+}
+
+.icon-hover-effect:hover {
+  transform: scale(1.1);
+}

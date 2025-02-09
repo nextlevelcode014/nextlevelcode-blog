@@ -1,3 +1,3 @@
 export default function Auth() {
-  return null
+  return <h1>Atuh</h1>
 }

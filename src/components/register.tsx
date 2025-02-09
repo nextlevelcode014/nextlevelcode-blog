@@ -1,10 +1,22 @@
-// app/(auth)/register/page.tsx
-import Link from 'next/link'
-import styles from '../auth.module.css'
-import { FaEnvelope, FaLock, FaUser, FaUserPlus } from 'react-icons/fa'
+'use client'
+import { FaEnvelope, FaLock, FaTimes, FaUser, FaUserPlus } from 'react-icons/fa'
 import { FiArrowRight } from 'react-icons/fi'
 
-export default function RegisterPage() {
+type SingUpFormData = {
+  username: string
+  email: string
+  password: string
+  confirmPassword: string
+}
+
+export default function Register() {
+  // const { register, handleSubmit } = useForm<SingUpFormData>()
+
+  // const handleRegister = (data: SingUpFormData) => {
+  //   console.log('Dados do registro:', data)
+  //   setShowRegisterModal(false)
+  // }
+
   return (
     <div className="bg-[#242424] p-8 rounded-lg w-full max-w-md relative">
       <div className="text-center mb-8">

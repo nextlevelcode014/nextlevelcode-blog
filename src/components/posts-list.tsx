@@ -3,9 +3,9 @@
 import { useForm } from 'react-hook-form'
 import Image from 'next/image'
 import Link from 'next/link'
-import { usePosts } from '../services/queries'
 import MessageError from './message-error'
-import NoPostsFound from './not-found'
+import { usePosts } from '@/services/queries'
+import NotFound from '@/app/not-found'
 
 interface SearchFormData {
   searchQuery: string
@@ -27,6 +27,7 @@ export default function PostsList() {
     )
   }
 
+  console.log(posts.data)
   if (posts.isError) {
     return <MessageError message={posts.error.message} />
   }
@@ -65,15 +66,16 @@ export default function PostsList() {
         {filteredPosts && filteredPosts.length > 0 ? (
           filteredPosts.map((post) => (
             <article
-              key={post.name}
+              key={post.id}
               className="bg-[#242424] shadow-lg rounded-lg overflow-hidden"
             >
               <Image
                 className="w-full h-48 object-cover"
                 src={post.cover_image}
                 alt={post.title}
-                width={800}
-                height={600}
+                width={1920}
+                height={1080}
+                quality={75}
                 priority
                 loading="eager"
               />
@@ -94,7 +96,7 @@ export default function PostsList() {
             </article>
           ))
         ) : (
-          <NoPostsFound />
+          <NotFound />
         )}
       </section>
     </>

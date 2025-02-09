@@ -76,16 +76,15 @@ export const Header = () => {
     <header style={styles.header}>
       <nav style={styles.navContainer}>
         <div style={styles.logoContainer}>
-          {isHome && (
-            <Image
-              src={Profile}
-              alt="Imagem de Perfil"
-              width={50}
-              height={50}
-              style={{ borderRadius: '50%' }}
-              priority
-            />
-          )}
+          <Image
+            src={Profile}
+            alt="Imagem de Perfil"
+            width={50}
+            height={50}
+            style={{ borderRadius: '50%' }}
+            priority
+          />
+
           <div
             style={{
               fontSize: '1.25rem',

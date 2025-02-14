@@ -4,8 +4,7 @@ import { Metadata } from 'next'
 import Provider from '@/services/provider'
 import { ReactNode } from 'react'
 import { Header } from '@/components/header'
-import ActiveSegment from '@/components/active-segment'
-import Description from '@/components/description'
+import { AuthProvider } from '@/context/auth-context'
 
 export const metadata: Metadata = {
   title: 'NextLevelCodeBlog',
@@ -21,29 +20,17 @@ export const metadata: Metadata = {
   },
 }
 
-export default function RootLayout({
-  children,
-  videos,
-  posts,
-  feed,
-}: {
-  children: ReactNode
-  videos: ReactNode
-  posts: ReactNode
-  feed: ReactNode
-}) {
+export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en">
       <body>
         <div className="flex flex-col min-h-screen bg-[#1a1a1a] text-gray-100">
-          <Header />
-          <Description />
-          <main className="grid grid-cols-1 gap-8">
-            <Provider>
-              <ActiveSegment posts={posts} feed={feed} videos={videos} />
+          <Provider>
+            <AuthProvider>
+              <Header />
               {children}
-            </Provider>
-          </main>
+            </AuthProvider>
+          </Provider>
           <Footer />
         </div>
       </body>
@@ -54,12 +41,9 @@ export default function RootLayout({
 // Footer separado para melhor organização
 function Footer() {
   return (
-    <footer
-      id="footer"
-      className="bg-[#242424] text-gray-100 text-center p-4 mt-auto border-t border-gray-700"
-    >
+    <footer className="bg-[#242424] text-gray-100 text-center p-4 mt-auto border-t border-gray-700">
       <div className="flex flex-col md:flex-row justify-between items-center space-y-2 md:space-y-0">
-        <div className="flex flex-col gap-2">
+        <nav className="flex flex-col md:flex-row items-center space-y-2 md:space-y-0 md:space-x-4">
           <Link
             href="mailto:nextlevelcode014@gmail.com"
             className="text-gray-400 hover:text-gray-200 transition duration-200"
@@ -73,7 +57,7 @@ function Footer() {
           >
             github.com/m4rc3l04ugu2t0
           </Link>
-        </div>
+        </nav>
         <p className="text-gray-400">&copy; 2024 NextLevelCodeBlog.</p>
       </div>
     </footer>

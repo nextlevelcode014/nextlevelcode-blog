@@ -1,6 +1,6 @@
 // app/blog/@posts/page.tsx
 import PostsList from '@/components/posts-list'
-import Link from 'next/link'
+import ProtectedRoute from '@/components/protected-route'
 
 export default function PostsPage() {
   return <PostsList />

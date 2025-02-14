@@ -2,160 +2,99 @@
 import Profile from '../../public/assets/profile.jpg'
 import Image from 'next/image'
 import Link from 'next/link'
-import { usePathname } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
 import { FaHome, FaSignInAlt, FaUserPlus } from 'react-icons/fa'
+import UserMenu from './menu-user'
+import { useAuth } from '@/context/auth-context'
 
 export const Header = () => {
   const pathname = usePathname()
-  const isHome = pathname === '/'
-
-  // Objetos de estilo
-  const styles = {
-    header: {
-      backgroundColor: '#0f0f0f',
-      padding: '1rem',
-      boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)',
-      borderBottom: '2px solid #1f2937',
-    },
-    navContainer: {
-      maxWidth: '1280px',
-      margin: '0 auto',
-      display: 'flex',
-      justifyContent: 'space-between',
-      alignItems: 'center',
-    },
-    logoContainer: {
-      display: 'flex',
-      alignItems: 'center',
-      gap: '0.25rem',
-    },
-    navList: {
-      display: 'flex',
-      gap: '1rem',
-      listStyle: 'none',
-    },
-    linkBase: {
-      display: 'flex',
-      alignItems: 'center',
-      transition: 'all 0.2s ease',
-      color: '#9ca3af',
-      textDecoration: 'none',
-    },
-    activeLink: {
-      color: '#60a5fa',
-      fontWeight: '700',
-    },
-    authContainer: {
-      display: 'flex',
-      alignItems: 'center',
-      gap: '1.5rem',
-    },
-    authButtonsContainer: {
-      display: 'flex',
-      gap: '1rem',
-      borderLeft: '1px solid #374151',
-      paddingLeft: '1rem',
-    },
-    authButton: {
-      display: 'flex',
-      alignItems: 'center',
-      gap: '0.5rem',
-      color: '#d1d5db',
-      background: 'none',
-      border: 'none',
-      cursor: 'pointer',
-      transition: 'color 0.2s ease',
-    },
-    icon: {
-      width: '1rem',
-      height: '1rem',
-    },
-  }
+  const { isAuthenticated } = useAuth()
 
   return (
-    <header style={styles.header}>
-      <nav style={styles.navContainer}>
-        <div style={styles.logoContainer}>
+    <header className="bg-[#0f0f0f] p-4 shadow-md border-b-2 border-gray-800">
+      <nav className="max-w-6xl mx-auto flex justify-between items-center">
+        <div className="flex items-center gap-1">
           <Image
             src={Profile}
             alt="Imagem de Perfil"
             width={50}
             height={50}
-            style={{ borderRadius: '50%' }}
+            className="rounded-full"
             priority
           />
-
-          <div
-            style={{
-              fontSize: '1.25rem',
-              fontWeight: '700',
-              color: '#e5e7eb',
-            }}
-          >
-            Next Level Code
-          </div>
+          <div className="text-xl font-bold text-gray-200">Next Level Code</div>
         </div>
 
-        <ul style={styles.navList}>
+        <ul className="flex gap-4 list-none">
           <li>
             <Link
               href="/"
-              className="icon-hover-effect"
-              style={{
-                ...styles.linkBase,
-                ...(isHome && styles.activeLink),
-              }}
+              className={`flex items-center transition-all text-gray-400 hover:text-blue-400 ${
+                pathname === '/' ? 'text-blue-400 font-bold' : ''
+              }`}
             >
-              <FaHome
-                style={{
-                  marginRight: '0.25rem',
-                  height: '1.25rem',
-                  width: '1.25rem',
-                }}
-              />
+              <FaHome className="mr-1 h-5 w-5" />
               Home
             </Link>
           </li>
           <li>
             <Link
-              href="#footer"
-              className="icon-hover-effect"
-              style={styles.linkBase}
+              href="/news/posts"
+              className={`flex items-center transition-all text-gray-400 hover:text-blue-400 ${
+                pathname === '/news/posts' ? 'text-blue-400 font-bold' : ''
+              }`}
             >
-              Sobre
+              Posts 📝
             </Link>
           </li>
           <li>
             <Link
-              href="#footer"
-              className="icon-hover-effect"
-              style={styles.linkBase}
+              href="/news/feed"
+              className={`flex items-center transition-all text-gray-400 hover:text-blue-400 ${
+                pathname === '/news/feed' ? 'text-blue-400 font-bold' : ''
+              }`}
             >
-              Contato
+              Feed 📢
             </Link>
           </li>
           <li>
-            <div style={styles.authContainer}>
-              <div style={styles.authButtonsContainer}>
-                <Link
-                  href="/login"
-                  className="icon-hover-effect"
-                  style={styles.authButton}
-                >
-                  <FaSignInAlt style={styles.icon} />
-                  Login
-                </Link>
-                <Link
-                  href="/register"
-                  className="icon-hover-effect"
-                  style={styles.authButton}
-                >
-                  <FaUserPlus style={styles.icon} />
-                  Registrar
-                </Link>
-              </div>
-            </div>
+            <Link
+              href="/news/videos"
+              className={`flex items-center transition-all text-gray-400 hover:text-blue-400 ${
+                pathname === '/news/videos' ? 'text-blue-400 font-bold' : ''
+              }`}
+            >
+              Videos 🎥
+            </Link>
           </li>
+
+          {isAuthenticated ? (
+            <li className="flex items-center gap-6 border-l border-gray-700 pl-4">
+              <UserMenu />
+            </li>
+          ) : (
+            <li className="flex items-center gap-6 border-l border-gray-700 pl-4">
+              <Link
+                href="/auth/login"
+                className={`flex items-center gap-2 text-gray-300 transition-all hover:text-blue-400 ${
+                  pathname === '/auth/login' ? 'text-blue-400 font-bold' : ''
+                }`}
+              >
+                <FaSignInAlt className="w-4 h-4" />
+                Login
+              </Link>
+              <Link
+                href="/auth/register"
+                className={`flex items-center gap-2 text-gray-300 transition-all hover:text-blue-400 ${
+                  pathname === '/auth/register' ? 'text-blue-400 font-bold' : ''
+                }`}
+              >
+                <FaUserPlus className="w-4 h-4" />
+                Registrar
+              </Link>
+            </li>
+          )}
         </ul>
       </nav>
     </header>

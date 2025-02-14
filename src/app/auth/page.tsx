@@ -1,3 +1,5 @@
+import { Card } from '@/components/card'
+
 export default function Auth() {
-  return <h1>Atuh</h1>
+  return null
 }

@@ -1,15 +1,9 @@
-import { Card } from '@/components/card'
-import { Header } from '@/components/header'
-import Modal from '@/components/model'
-import PostsList from '@/components/posts-list'
-import { stylesComponets } from '@/styles'
-import Link from 'next/link'
-export const revalidate = 60 // Revalida os dados a cada 60 segundos
+import Description from '@/components/description'
 
 export default function Home() {
   return (
-    <Modal>
-      <Card>Home</Card>
-    </Modal>
+    <main className="mr-32 ml-32 mt-10 mb-10">
+      <Description />
+    </main>
   )
 }

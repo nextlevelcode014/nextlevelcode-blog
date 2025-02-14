@@ -5,11 +5,8 @@ const nextConfig: NextConfig = {
   images: {
     remotePatterns: [
       {
-        protocol: 'http',
-        hostname: 'localhost',
-        pathname: '/api/images/**',
-        port: '8080',
-        search: '',
+        protocol: 'https',
+        hostname: 'cdn.sanity.io',
       },
     ],
     formats: ['image/webp'],

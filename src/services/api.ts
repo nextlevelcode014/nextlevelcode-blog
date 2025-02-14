@@ -10,7 +10,7 @@ import {
 
 export const api_url = process.env.NEXT_PUBLIC_API_URL
 
-export async function fetchPosts(): Promise<Post[]> {
+export async function fetchPosts() {
   try {
     return (await axios.get<Post[]>(`${api_url}/posts/get_posts`)).data
   } catch (error) {

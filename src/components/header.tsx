@@ -2,7 +2,7 @@
 import Profile from '../../public/assets/profile.jpg'
 import Image from 'next/image'
 import Link from 'next/link'
-import { usePathname, useRouter } from 'next/navigation'
+import { usePathname } from 'next/navigation'
 import { FaHome, FaSignInAlt, FaUserPlus } from 'react-icons/fa'
 import UserMenu from './menu-user'
 import { useAuth } from '@/context/auth-context'

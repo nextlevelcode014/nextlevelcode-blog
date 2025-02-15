@@ -15,6 +15,7 @@
     "@heroicons/react": "^2.2.0",
     "@hookform/resolvers": "^4.0.0",
     "@notionhq/client": "^2.2.15",
+    "@sanity/client": "^6.28.0",
     "@sanity/icons": "^3.6.0",
     "@sanity/image-url": "^1.1.0",
     "@sanity/vision": "^3.75.0",

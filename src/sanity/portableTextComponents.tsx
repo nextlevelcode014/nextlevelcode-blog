@@ -1,23 +1,98 @@
-import Image from "next/image";
-import { PortableTextComponents } from "next-sanity";
-import { urlFor } from "@/sanity/lib/image";
+import Image from 'next/image'
+import { PortableTextComponents } from 'next-sanity'
+import { urlFor } from '@/sanity/lib/image'
+import { PortableTextBlockComponent } from '@portabletext/react'
+import { PortableTextBlock } from '@portabletext/types'
+import CodeBlock from '@/components/code-block'
+import { PostImage } from '@/components/post-image'
 
 export const components: PortableTextComponents = {
   types: {
-    image: (props) =>
-      props.value ? (
+    image: ({ value }: any) => (
+      <div
+        className="relative my-2 [&+*]:mt-4"
+        style={{
+          // Reduz margem vertical
+          width: 'fit-content',
+          maxWidth: '100%',
+          marginLeft: 'auto',
+          marginRight: 'auto',
+        }}
+      >
         <Image
-          className="rounded-lg not-prose w-full h-auto"
-          src={urlFor(props.value)
-            .width(600)
-            .height(400)
-            .quality(80)
-            .auto("format")
-            .url()}
-          alt={props?.value?.alt || ""}
-          width="600"
-          height="400"
+          src={urlFor(value).url()}
+          alt={value?.alt || ''}
+          width={value.asset?.metadata?.dimensions?.width || 1200}
+          height={value.asset?.metadata?.dimensions?.height || 800}
+          className="rounded-lg border border-gray-800"
+          style={{
+            backgroundColor: value.asset?.metadata?.isOpaque
+              ? 'transparent'
+              : '#1a1a1a',
+            objectFit: 'contain',
+          }}
+          sizes="(max-width: 768px) 90vw, 75vw"
         />
-      ) : null,
+
+        {value?.caption && (
+          <figcaption className="mt-1 text-center text-sm text-gray-400">
+            {value.caption}
+          </figcaption>
+        )}
+      </div>
+    ),
+    codeBlock: ({ value }) => (
+      <>
+        <CodeBlock code={value.code} language={value.language} />
+      </>
+    ),
   },
-};
+
+  block: {
+    normal: ({ children }) => (
+      <p className="text-gray-300 leading-relaxed mb-6 whitespace-pre-line break-word ">
+        {children}
+      </p>
+    ),
+    h1: ({ children }) => (
+      <h1 className="text-4xl font-bold mb-6 mt-8 text-gray-100">{children}</h1>
+    ),
+    h2: ({ children }) => (
+      <h2 className="text-3xl font-bold mb-5 mt-7 text-gray-100">{children}</h2>
+    ),
+    h3: ({ children }) => (
+      <h3 className="text-2xl font-bold mb-4 mt-6 text-gray-100">{children}</h3>
+    ),
+  },
+
+  marks: {
+    link: ({ children, value }) => (
+      <a
+        href={value?.href}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="text-green-500 hover:text-green-400 underline transition-colors"
+      >
+        {children}
+      </a>
+    ),
+    strong: ({ children }) => (
+      <strong className="font-semibold text-gray-100">{children}</strong>
+    ),
+    em: ({ children }) => <em className="italic text-gray-300">{children}</em>,
+  },
+
+  list: {
+    bullet: ({ children }) => (
+      <ul className="list-disc pl-6 mb-6 text-gray-300">{children}</ul>
+    ),
+    number: ({ children }) => (
+      <ol className="list-decimal pl-6 mb-6 text-gray-300">{children}</ol>
+    ),
+  },
+
+  listItem: {
+    bullet: ({ children }) => <li className="mb-2">{children}</li>,
+    number: ({ children }) => <li className="mb-2">{children}</li>,
+  },
+}

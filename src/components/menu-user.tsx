@@ -34,7 +34,7 @@ export default function UserMenu() {
     mutationFn: deleteUser,
     onSuccess: () => {
       query.refetch()
-      logout
+      logout()
     },
   })
 
@@ -191,7 +191,7 @@ const ConfirmationModal = ({
   if (!isOpen) return null
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+    <div className="fixed z-10 inset-0 flex items-center justify-center bg-black bg-opacity-50">
       <div className="bg-[#1a1a1a] p-6 rounded-lg shadow-lg max-w-sm">
         <h3 className="text-lg font-bold text-teal-400 mb-4">{title}</h3>
         <p className="text-gray-300 mb-6">{message}</p>
@@ -234,7 +234,7 @@ const UserChangeModal = ({
   if (!isOpen) return null
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+    <div className="fixed inset-0 z-10 flex items-center justify-center bg-black bg-opacity-50">
       <div className="bg-[#1a1a1a] p-6 rounded-lg shadow-lg max-w-sm">
         <h3 className="text-lg font-bold text-teal-400 mb-4">
           Change Username
@@ -316,7 +316,7 @@ const PasswordChangeModal = ({
   if (!isOpen) return null
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+    <div className="fixed inset-0 z-10 flex items-center justify-center bg-black bg-opacity-50">
       <div className="bg-[#1a1a1a] p-6 rounded-lg shadow-lg max-w-sm">
         <h3 className="text-lg font-bold text-teal-400 mb-4">
           Change Password

@@ -1,17 +1,61 @@
 // types/index.ts
-export interface Post {
+export interface NewsPost {
+  id: string
+  url: string
+  description: string
+  authorId: string
+  createdAt: string
+}
+
+export interface UpdateNewsPost {
+  post_id: string
+  url: string
+  description: string
+}
+
+export interface PostCommentWithComments {
+  id: string
+  url: string
+  description: string
+  authorId: string
+  authorName: string
+  comments: PostCommentWithAuthor[]
+  createdAt: string
+}
+
+export interface PostCommentWithAuthor {
+  id: string
+  content: string
+  authorId: string
+  authorName: string
+  createdAt: string
+}
+
+export interface Author {
   id: string
   name: string
-  title: string
+}
+
+export interface CreatePostData {
+  id: string
+  url: string
   description: string
-  cover_image: string
+  authorName: string
 }
 
-export interface PostImages {
-  images: string[]
+export interface CommentData {
+  authorId: string
+  post_id: string
+  comment: string
+  authorName: string
 }
 
-export interface PostVideos {
+export interface UpdateComment {
+  comment: string
+  commentId: string
+}
+
+export interface Videos {
   videos: string[]
 }
 export type LoginData = {
@@ -31,6 +75,21 @@ export interface User {
       updated_at: string
     }
   }
+}
+
+export interface Videos {
+  id: string
+  title: string
+  duration: string
+  youtube_id: string
+  views: number
+  categories: string[]
+}
+
+export interface GetVideo {
+  title: string
+  duration: string
+  views: number
 }
 
 export interface RegisterData {

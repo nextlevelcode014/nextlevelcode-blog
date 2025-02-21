@@ -38,13 +38,10 @@
   @apply text-3xl md:text-3xl lg:text-xl text-slate-300;
 }
 /* Melhora legibilidade de screenshots escuros */
-.dark .prose img {
-  filter: brightness(0.9) contrast(1.1);
-}
 
 /* Mantém fonte do terminal legível */
 .prose pre {
-  @apply bg-gray-900/50 p-4 rounded-lg border border-gray-700;
+  @apply bg-gray-950/60 p-4 rounded-lg border border-gray-700;
   white-space: pre-wrap;
   word-break: break-word;
 }

@@ -1,10 +1,8 @@
 import Image from 'next/image'
 import { PortableTextComponents } from 'next-sanity'
 import { urlFor } from '@/sanity/lib/image'
-import { PortableTextBlockComponent } from '@portabletext/react'
-import { PortableTextBlock } from '@portabletext/types'
 import CodeBlock from '@/components/code-block'
-import { PostImage } from '@/components/post-image'
+import YoutubeEmbed from '@/components/youtube-embed'
 
 export const components: PortableTextComponents = {
   types: {
@@ -12,7 +10,6 @@ export const components: PortableTextComponents = {
       <div
         className="relative my-2 [&+*]:mt-4"
         style={{
-          // Reduz margem vertical
           width: 'fit-content',
           maxWidth: '100%',
           marginLeft: 'auto',
@@ -46,6 +43,9 @@ export const components: PortableTextComponents = {
         <CodeBlock code={value.code} language={value.language} />
       </>
     ),
+    youtube: ({ value }) => {
+      return <YoutubeEmbed url={value.url} />
+    },
   },
 
   block: {

@@ -15,7 +15,8 @@ export default function ActiveSegment({
   const isHome = router === '/auth'
 
   const isValidRoute =
-    isHome || ['login', 'register', 'auth'].includes(activeSegment || '')
+    isHome ||
+    ['login', 'register', 'auth', 'verify-email'].includes(activeSegment || '')
 
   return (
     <>

@@ -1,6 +1,6 @@
 'use client'
-import NotFound from '@/app/not-found'
 import { useSearchParams } from 'next/navigation'
+import PostNotFound from './search-not-found'
 
 // app/blog/@feed/page.tsx
 const mockUpdates = [
@@ -168,7 +168,7 @@ export default function Feed() {
             </a>
           ))
         ) : (
-          <NotFound />
+          <PostNotFound />
         )}
       </div>
 

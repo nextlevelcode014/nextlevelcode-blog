@@ -1,4 +1,5 @@
 'use client'
+
 import Profile from '../../public/assets/profile.jpg'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -30,8 +31,10 @@ export const Header = () => {
           <li>
             <Link
               href="/"
-              className={`flex items-center transition-all text-gray-400 hover:text-blue-400 ${
-                pathname === '/' ? 'text-blue-400 font-bold' : ''
+              className={`flex items-center transition-all ${
+                pathname === '/'
+                  ? 'text-blue-400 font-bold'
+                  : 'text-gray-400 hover:text-blue-400'
               }`}
             >
               <FaHome className="mr-1 h-5 w-5" />
@@ -41,18 +44,22 @@ export const Header = () => {
           <li>
             <Link
               href="/news/posts"
-              className={`flex items-center transition-all text-gray-400 hover:text-blue-400 ${
-                pathname === '/news/posts' ? 'text-blue-400 font-bold' : ''
+              className={`flex items-center transition-all ${
+                pathname === '/news/posts' || pathname === '/news/videos'
+                  ? 'text-blue-400 font-bold'
+                  : 'text-gray-400 hover:text-blue-400'
               }`}
             >
-              Posts 📝
+              News 📰
             </Link>
           </li>
           <li>
             <Link
-              href="/news/feed"
-              className={`flex items-center transition-all text-gray-400 hover:text-blue-400 ${
-                pathname === '/news/feed' ? 'text-blue-400 font-bold' : ''
+              href="/feed"
+              className={`flex items-center transition-all ${
+                pathname === '/feed'
+                  ? 'text-blue-400 font-bold'
+                  : 'text-gray-400 hover:text-blue-400'
               }`}
             >
               Feed 📢
@@ -60,12 +67,14 @@ export const Header = () => {
           </li>
           <li>
             <Link
-              href="/news/videos"
-              className={`flex items-center transition-all text-gray-400 hover:text-blue-400 ${
-                pathname === '/news/videos' ? 'text-blue-400 font-bold' : ''
+              href="/about"
+              className={`flex items-center transition-all ${
+                pathname === '/about'
+                  ? 'text-blue-400 font-bold'
+                  : 'text-gray-400 hover:text-blue-400'
               }`}
             >
-              Videos 🎥
+              About ℹ️
             </Link>
           </li>
 
@@ -77,8 +86,10 @@ export const Header = () => {
             <li className="flex items-center gap-6 border-l border-gray-700 pl-4">
               <Link
                 href="/auth/login"
-                className={`flex items-center gap-2 text-gray-300 transition-all hover:text-blue-400 ${
-                  pathname === '/auth/login' ? 'text-blue-400 font-bold' : ''
+                className={`flex items-center gap-2 transition-all ${
+                  pathname === '/auth/login'
+                    ? 'text-blue-400 font-bold'
+                    : 'text-gray-300 hover:text-blue-400'
                 }`}
               >
                 <FaSignInAlt className="w-4 h-4" />
@@ -86,8 +97,10 @@ export const Header = () => {
               </Link>
               <Link
                 href="/auth/register"
-                className={`flex items-center gap-2 text-gray-300 transition-all hover:text-blue-400 ${
-                  pathname === '/auth/register' ? 'text-blue-400 font-bold' : ''
+                className={`flex items-center gap-2 transition-all ${
+                  pathname === '/auth/register'
+                    ? 'text-blue-400 font-bold'
+                    : 'text-gray-300 hover:text-blue-400'
                 }`}
               >
                 <FaUserPlus className="w-4 h-4" />

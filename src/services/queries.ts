@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query'
-import { fetchPostImage, fetchPosts, fetchPostVideo, getMe } from './api'
+import { fetchPosts, getMe, getVideo, getVideos } from './api'
 
 export function usePosts() {
   return useQuery({
@@ -21,16 +21,17 @@ export function useUser(token: string) {
   })
 }
 
-export function usePostImage(post_id: string) {
+export function useVideos() {
   return useQuery({
-    queryKey: ['post_images', post_id],
-    queryFn: () => fetchPostImage(post_id),
+    queryKey: ['videos'],
+    queryFn: getVideos,
+    staleTime: 1000 * 60,
   })
 }
 
-export function usePostVideo(post_id: string) {
+export function useVideo(youtube_id: string) {
   return useQuery({
-    queryKey: ['post_videos', post_id],
-    queryFn: () => fetchPostVideo(post_id),
+    queryKey: ['video'],
+    queryFn: () => getVideo(youtube_id),
   })
 }

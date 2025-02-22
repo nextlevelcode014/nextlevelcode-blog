@@ -25,18 +25,17 @@ export default function SearchBar() {
         <input
           type="text"
           {...register('search')}
-          placeholder="Pesquisar conteúdo..."
+          placeholder="Content..."
           style={inputStyle}
         />
         <button type="submit" style={buttonStyle}>
-          Buscar
+          Search
         </button>
       </form>
     </div>
   )
 }
 
-// Estilos atualizados
 const containerStyle: React.CSSProperties = {
   display: 'flex',
   justifyContent: 'center',

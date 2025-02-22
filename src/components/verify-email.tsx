@@ -11,7 +11,6 @@ export default function VerifyEmail() {
   const [errorMessage, setErrorMessage] = useState('')
   const router = useRouter()
   const token = useSearchParams().get('token')
-
   const mutation = useMutation({
     mutationFn: verifyEmail,
     onSuccess: () => {

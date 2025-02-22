@@ -54,6 +54,7 @@ export const Header = () => {
     onSuccess: () => {
       query.refetch()
       logout()
+      setIsMenuOpen(false)
     },
   })
 
@@ -63,6 +64,7 @@ export const Header = () => {
       setActiveModal(null)
       query.refetch()
       usernameForm.reset()
+      setIsMenuOpen(false)
     },
   })
 
@@ -72,6 +74,7 @@ export const Header = () => {
       setActiveModal(null)
       query.refetch()
       passwordForm.reset()
+      setIsMenuOpen(false)
     },
   })
 
@@ -102,6 +105,10 @@ export const Header = () => {
     document.addEventListener('mousedown', handleClickOutside)
     return () => document.removeEventListener('mousedown', handleClickOutside)
   }, [])
+
+  useEffect(() => {
+    setIsMenuOpen(false)
+  }, [pathname])
 
   return (
     <header className="bg-[#0f0f0f] p-4 shadow-md border-b-2 border-gray-800">
@@ -207,7 +214,6 @@ export const Header = () => {
           )}
         </ul>
 
-        {/* Mobile Menu Button */}
         <button
           onClick={() => setIsMenuOpen(!isMenuOpen)}
           className="md:hidden text-gray-300 hover:text-blue-400 p-2"
@@ -232,7 +238,6 @@ export const Header = () => {
               </button>
 
               <ul className="flex flex-col gap-4 h-full pt-16 overflow-y-auto">
-                {/* Navigation Links */}
                 <li>
                   <Link
                     href="/"
@@ -376,7 +381,6 @@ export const Header = () => {
           </div>
         )}
 
-        {/* Modals */}
         <ConfirmationModal
           isOpen={activeModal === 'delete' || activeModal === 'logout'}
           title={activeModal === 'delete' ? 'Delete Account' : 'Confirm Logout'}

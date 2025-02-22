@@ -13,13 +13,9 @@ export default async function AuthLayout({
   register: React.ReactNode
 }) {
   return (
-    <div className={styles.container}>
-      <div className={styles.card}>
-        <Provider>
-          <ActiveSegment register={register} login={login} />
-          {children}
-        </Provider>
-      </div>
-    </div>
+    <Provider>
+      <ActiveSegment register={register} login={login} />
+      {children}
+    </Provider>
   )
 }

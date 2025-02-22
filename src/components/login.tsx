@@ -1,4 +1,5 @@
 'use client'
+
 import { loginUser } from '@/services/api'
 import { LoginData } from '@/types'
 import { useMutation } from '@tanstack/react-query'
@@ -29,65 +30,82 @@ export default function LoginForm() {
       router.push('/')
     },
   })
+
   const handleLogin = (data: LoginData) => {
     loginMutation.mutate({ email: data.email, password: data.password })
   }
 
   return (
-    <div className="bg-[#242424] p-8 rounded-lg w-full max-w-md relative">
-      <div className="text-center mb-8">
-        <FaLock className="w-12 h-12 text-teal-500 mx-auto mb-4" />
-        <h2 className="text-2xl font-bold text-teal-400">Restricted Access</h2>
+    <div className="bg-[#242424] p-4 sm:p-6 rounded-lg w-full max-w-[90vw] ml-auto mr-auto mt-auto sm:max-w-md relative mx-4">
+      <div className="text-center mb-6 sm:mb-8">
+        <FaLock className="w-10 h-10 sm:w-12 sm:h-12 text-teal-500 mx-auto mb-3 sm:mb-4" />
+        <h2 className="text-xl sm:text-2xl font-bold text-teal-400">
+          Restricted Access
+        </h2>
         {loginMutation.isError ? (
-          <p className="text-sm text-red-500 mt-1">
-            ❌ Invalid data!{' '}
-            {loginMutation.error && loginMutation.error.message}
+          <p className="text-xs sm:text-sm text-red-500 mt-2 px-2">
+            ❌ Invalid credentials! Please check your email and password.
           </p>
         ) : (
-          <p className="text-gray-400 mt-2">Login to continue</p>
+          <p className="text-gray-400 mt-2 text-sm sm:text-base">
+            Login to continue
+          </p>
         )}
       </div>
-      <form onSubmit={handleSubmit(handleLogin)} className="space-y-6">
+
+      <form
+        onSubmit={handleSubmit(handleLogin)}
+        className="space-y-4 sm:space-y-6"
+      >
         <div className="relative">
-          <FaUser className="absolute top-3 left-3 text-gray-400" />
+          <FaUser className="absolute top-3.5 left-3 text-gray-400 text-sm sm:text-base" />
           <input
-            {...register('email', { required: true })}
-            placeholder="Username"
-            className="w-full pl-10 pr-4 py-2 bg-[#1a1a1a] rounded focus:ring-2 focus:ring-teal-500 outline-none"
+            {...register('email')}
+            placeholder="Email"
+            autoComplete="email"
+            className="w-full pl-9 sm:pl-10 pr-4 py-2.5 text-sm sm:text-base bg-[#1a1a1a] rounded-lg focus:ring-2 focus:ring-teal-500 outline-none placeholder-gray-500"
+            disabled={loginMutation.isPending}
           />
           {errors.email && (
-            <p className="text-sm text-red-500 mt-1">{errors.email.message}</p>
+            <p className="text-xs sm:text-sm text-red-500 mt-1 ml-1">
+              {errors.email.message}
+            </p>
           )}
         </div>
+
         <div className="relative">
-          <FaLock className="absolute top-3 left-3 text-gray-400" />
+          <FaLock className="absolute top-3.5 left-3 text-gray-400 text-sm sm:text-base" />
           <input
             type="password"
-            {...register('password', { required: true })}
-            disabled={loginMutation.isPending}
+            {...register('password')}
             placeholder="Password"
-            className="w-full pl-10 pr-4 py-2 bg-[#1a1a1a] rounded focus:ring-2 focus:ring-teal-500 outline-none"
+            autoComplete="current-password"
+            disabled={loginMutation.isPending}
+            className="w-full pl-9 sm:pl-10 pr-4 py-2.5 text-sm sm:text-base bg-[#1a1a1a] rounded-lg focus:ring-2 focus:ring-teal-500 outline-none placeholder-gray-500"
           />
           {errors.password && (
-            <p className="text-sm text-red-500 mt-1">
+            <p className="text-xs sm:text-sm text-red-500 mt-1 ml-1">
               {errors.password.message}
             </p>
           )}
         </div>
+
         <button
           type="submit"
-          className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+          disabled={loginMutation.isPending}
+          className="w-full flex items-center justify-center gap-2 py-2.5 px-4 rounded-lg text-sm sm:text-base font-medium text-white bg-blue-600 hover:bg-blue-700 transition-colors disabled:opacity-70 disabled:cursor-not-allowed"
         >
-          <FiArrowRight className="w-5 h-5" />
-          {loginMutation.isPending ? 'Entering...' : 'Enter'}
+          <FiArrowRight className="w-4 h-4 sm:w-5 sm:h-5" />
+          {loginMutation.isPending ? 'Authenticating...' : 'Continue'}
         </button>
       </form>
-      <div className="pt-4">
+
+      <div className="pt-4 text-center">
         <Link
           href="/confirm-auth/forgot-password"
-          className="text-blue-600 hover:text-blue-700"
+          className="text-sm sm:text-base text-blue-500 hover:text-blue-400 transition-colors"
         >
-          forgot password
+          Forgot your password?
         </Link>
       </div>
     </div>

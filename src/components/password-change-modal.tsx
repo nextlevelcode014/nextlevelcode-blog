@@ -16,7 +16,7 @@ export const PasswordChangeModal = ({
   if (!isOpen) return null
 
   return (
-    <div className="fixed inset-0 z-10 flex items-center justify-center bg-black bg-opacity-50">
+    <div className="fixed inset-0 z-20 flex items-center justify-center bg-black bg-opacity-50">
       <div className="bg-[#1a1a1a] p-6 rounded-lg shadow-lg max-w-sm">
         <h3 className="text-lg font-bold text-teal-400 mb-4">
           Change Password

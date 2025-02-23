@@ -22,7 +22,9 @@ export default function ForgotPasswordPage() {
   const mutation = useMutation({
     mutationFn: apiService.forgotPassword,
     onSuccess: () => {
-      router.push('/')
+      setTimeout(() => {
+        router.push('/')
+      }, 2000)
     },
   })
 

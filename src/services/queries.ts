@@ -17,6 +17,9 @@ export function useUser() {
   return useQuery({
     queryKey: ['user'],
     queryFn: () => apiService.getMe,
+
+    refetchInterval: 60 * 1000,
+    refetchOnWindowFocus: true,
   })
 }
 
@@ -24,6 +27,9 @@ export function useVideos() {
   return useQuery({
     queryKey: ['videos'],
     queryFn: apiService.getVideos,
+
+    refetchInterval: 60 * 1000,
+    refetchOnWindowFocus: true,
   })
 }
 

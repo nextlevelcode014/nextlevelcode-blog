@@ -8,6 +8,8 @@ export function usePosts() {
       let posts = apiService.fetchPosts()
       return posts
     },
+    refetchInterval: 60 * 1000,
+    refetchOnWindowFocus: true,
   })
 }
 
@@ -22,7 +24,6 @@ export function useVideos() {
   return useQuery({
     queryKey: ['videos'],
     queryFn: apiService.getVideos,
-    staleTime: 1000 * 60,
   })
 }
 

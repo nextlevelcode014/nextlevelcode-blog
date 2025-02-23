@@ -21,6 +21,7 @@ export default function ResetPasswordPage() {
   } = useForm<ResetPasswordData>({
     resolver: zodResolver(resetPasswordSchema),
   })
+  const token = useSearchParams().get('token') || ''
 
   const mutation = useMutation({
     mutationFn: apiService.resetPassword,
@@ -33,7 +34,7 @@ export default function ResetPasswordPage() {
   })
 
   const onSubmit = (data: ResetPasswordData) => {
-    mutation.mutate(data)
+    mutation.mutate({ ...data, token })
   }
 
   return (
@@ -49,7 +50,7 @@ export default function ResetPasswordPage() {
             </p>
           ) : (
             <p className="mt-2 text-center text-sm text-gray-600">
-              Type your password again.
+              Enter your password again.
             </p>
           )}
         </div>
@@ -109,7 +110,7 @@ export default function ResetPasswordPage() {
               <span className="absolute left-0 inset-y-0 flex items-center pl-3">
                 <FaCheck className="h-5 w-5 text-blue-300 group-hover:text-blue-200" />
               </span>
-              {mutation.isPending ? 'Redefinindo...' : 'Redefinir Senha'}
+              {mutation.isPending ? 'Redefining...' : 'Reset password'}
             </button>
           </div>
         </form>

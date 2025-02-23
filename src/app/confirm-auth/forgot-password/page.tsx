@@ -7,6 +7,7 @@ import { useMutation } from '@tanstack/react-query'
 import { FaEnvelope, FaPaperPlane } from 'react-icons/fa'
 import { forgotPasswordSchema } from '@/services/schemas'
 import { apiService } from '@/services/api'
+import { useRouter } from 'next/navigation'
 
 export default function ForgotPasswordPage() {
   const {
@@ -16,9 +17,13 @@ export default function ForgotPasswordPage() {
   } = useForm<{ email: string }>({
     resolver: zodResolver(forgotPasswordSchema),
   })
+  const router = useRouter()
 
   const mutation = useMutation({
     mutationFn: apiService.forgotPassword,
+    onSuccess: () => {
+      router.push('/')
+    },
   })
 
   const onSubmit = (data: { email: string }) => {
@@ -30,15 +35,15 @@ export default function ForgotPasswordPage() {
       <div className="max-w-md w-full space-y-8">
         <div>
           <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-400">
-            Esqueceu sua senha?
+            forgot your password?
           </h2>
           {mutation.isSuccess ? (
             <p className="mt-2 text-center text-sm text-green-600">
-              ✅ E-mail enviado!
+              ✅ Sent e-email!
             </p>
           ) : (
             <p className="mt-2 text-center text-sm text-gray-600">
-              Digite seu e-mail para receber um link de redefinição.
+              Enter your e-mail to receive the verification link.
             </p>
           )}
         </div>
@@ -53,7 +58,7 @@ export default function ForgotPasswordPage() {
                   type="email"
                   id="email"
                   {...register('email')}
-                  placeholder="Digite seu e-mail"
+                  placeholder="Enter your e-mail"
                   className="appearance-none rounded-none relative block w-full px-3 py-2 border bg-[#242424] border-gray-300 placeholder-gray-500 text-gray-300 rounded-t-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
                 />
                 <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
@@ -80,7 +85,7 @@ export default function ForgotPasswordPage() {
               <span className="absolute left-0 inset-y-0 flex items-center pl-3">
                 <FaPaperPlane className="h-5 w-5 text-blue-300 group-hover:text-blue-200" />
               </span>
-              {mutation.isPending ? 'Enviando...' : 'Enviar'}
+              {mutation.isPending ? 'Sending...' : 'Send'}
             </button>
           </div>
         </form>

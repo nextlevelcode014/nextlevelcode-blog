@@ -172,7 +172,6 @@ export const apiService = {
     handleRequest(
       apiClient.post('/auth/reset-password', {
         ...data,
-        token: localStorage.getItem('token'),
       }),
     ),
 

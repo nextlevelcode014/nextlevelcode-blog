@@ -14,7 +14,8 @@ import {
   Videos,
 } from '../types/index'
 
-export const api_url = process.env.NEXT_PUBLIC_API_URL
+const api_url = process.env.API_URL
+const api_key = process.env.API_KEY
 
 export async function fetchPosts() {
   try {
@@ -25,7 +26,7 @@ export async function fetchPosts() {
         {
           headers: {
             Authorization: `Bearer ${token}`,
-            'X-Api-Key': process.env.NEXT_PUBLIC_API_KEY,
+            'X-Api-Key': api_key,
           },
         },
       )
@@ -57,7 +58,7 @@ export async function createPost(data: CreatePostData) {
           headers: {
             Authorization: `Bearer ${token}`,
 
-            'X-Api-Key': process.env.NEXT_PUBLIC_API_KEY,
+            'X-Api-Key': api_key,
           },
         },
       )
@@ -82,7 +83,7 @@ export async function updatePost(data: UpdateNewsPost) {
       {
         headers: {
           Authorization: `Bearer ${token}`,
-          'X-Api-Key': process.env.NEXT_PUBLIC_API_KEY,
+          'X-Api-Key': api_key,
         },
       },
     )
@@ -105,7 +106,7 @@ export async function getVideos() {
     const response = await axios.get<Videos[]>(`${api_url}/posts/videos`, {
       headers: {
         Authorization: `Bearer ${token}`,
-        'X-Api-Key': process.env.NEXT_PUBLIC_API_KEY,
+        'X-Api-Key': api_key,
       },
     })
 
@@ -128,7 +129,7 @@ export async function getVideo(youtube_id: string) {
       {
         headers: {
           Authorization: `Bearer ${token}`,
-          'X-Api-Key': process.env.NEXT_PUBLIC_API_KEY,
+          'X-Api-Key': api_key,
         },
       },
     )
@@ -152,7 +153,7 @@ export async function updateComment(data: UpdateComment) {
         {
           headers: {
             Authorization: `Bearer ${token}`,
-            'X-Api-Key': process.env.NEXT_PUBLIC_API_KEY,
+            'X-Api-Key': api_key,
           },
         },
       )
@@ -170,7 +171,7 @@ export async function deletePost(post_id: string) {
       await axios.delete(`${api_url}/posts/delete-post/${post_id}`, {
         headers: {
           Authorization: `Bearer ${token}`,
-          'X-Api-Key': process.env.NEXT_PUBLIC_API_KEY,
+          'X-Api-Key': api_key,
         },
       })
     ).data
@@ -187,7 +188,7 @@ export async function deleteComment(commentId: string) {
       await axios.delete(`${api_url}/posts/delete-comment/${commentId}`, {
         headers: {
           Authorization: `Bearer ${token}`,
-          'X-Api-Key': process.env.NEXT_PUBLIC_API_KEY,
+          'X-Api-Key': api_key,
         },
       })
     ).data
@@ -211,7 +212,7 @@ export async function postComment(data: CommentData) {
         {
           headers: {
             Authorization: `Bearer ${token}`,
-            'X-Api-Key': process.env.NEXT_PUBLIC_API_KEY,
+            'X-Api-Key': api_key,
           },
         },
       )
@@ -234,7 +235,7 @@ export const loginUser = async (data: LoginData) => {
   try {
     const response = await axios.post(`${api_url}/auth/login`, data, {
       headers: {
-        'X-Api-Key': process.env.NEXT_PUBLIC_API_KEY,
+        'X-Api-Key': api_key,
       },
     })
     return response.data
@@ -256,7 +257,7 @@ export const registerUser = async (data: RegisterData) => {
       passwordConfirm: data.confirmPassword,
 
       headers: {
-        'X-Api-Key': process.env.NEXT_PUBLIC_API_KEY,
+        'X-Api-Key': api_key,
       },
     })
     return response.data
@@ -278,7 +279,7 @@ export const verifyEmail = async (token: string) => {
 
       {
         headers: {
-          'X-Api-Key': process.env.NEXT_PUBLIC_API_KEY,
+          'X-Api-Key': api_key,
         },
       },
     )
@@ -299,7 +300,7 @@ export const getMe = async (token: string) => {
     const response = await axios.get<User>(`${api_url}/users/me`, {
       headers: {
         Authorization: `Bearer ${token}`,
-        'X-Api-Key': process.env.NEXT_PUBLIC_API_KEY,
+        'X-Api-Key': api_key,
       },
     })
     return response.data
@@ -320,7 +321,7 @@ export const deleteUser = async (user_id: string) => {
     const response = await axios.delete(`${api_url}/users/delete/${user_id}`, {
       headers: {
         Authorization: `Bearer ${token}`,
-        'X-Api-Key': process.env.NEXT_PUBLIC_API_KEY,
+        'X-Api-Key': api_key,
       },
     })
     return response.data
@@ -343,7 +344,7 @@ export const updateUserPassword = async (data: UserPasswordUpdate) => {
     const response = await axios.put(`${api_url}/users/update-password`, data, {
       headers: {
         Authorization: `Bearer ${token}`,
-        'X-Api-Key': process.env.NEXT_PUBLIC_API_KEY,
+        'X-Api-Key': api_key,
       },
     })
 
@@ -370,7 +371,7 @@ export const updateUsername = async (data: UsernameUpdate) => {
       {
         headers: {
           Authorization: `Bearer ${token}`,
-          'X-Api-Key': process.env.NEXT_PUBLIC_API_KEY,
+          'X-Api-Key': api_key,
         },
       },
     )
@@ -392,7 +393,7 @@ export const forgotPassword = async (email: string) => {
       email,
 
       headers: {
-        'X-Api-Key': process.env.NEXT_PUBLIC_API_KEY,
+        'X-Api-Key': api_key,
       },
     })
     return response.data

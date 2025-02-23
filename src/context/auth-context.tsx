@@ -10,8 +10,8 @@ import {
 } from 'react'
 import { useQuery, UseQueryResult } from '@tanstack/react-query'
 import { useRouter } from 'next/navigation'
-import { fetchPosts, getMe } from '@/services/api'
-import { NewsPost, User } from '@/types'
+import { apiService } from '@/services/api'
+import { User } from '@/types'
 
 interface AuthContextType {
   isAuthenticated: boolean
@@ -30,7 +30,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     queryKey: ['user', token],
     queryFn: async () => {
       if (!token) return null
-      return await getMe(token)
+      return await apiService.getMe()
     },
     enabled: !!token,
   })

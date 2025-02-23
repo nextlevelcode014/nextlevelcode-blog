@@ -6,7 +6,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation } from '@tanstack/react-query'
 import { FaEnvelope, FaPaperPlane } from 'react-icons/fa'
 import { forgotPasswordSchema } from '@/services/schemas'
-import { forgotPassword } from '@/services/api'
+import { apiService } from '@/services/api'
 
 export default function ForgotPasswordPage() {
   const {
@@ -18,7 +18,7 @@ export default function ForgotPasswordPage() {
   })
 
   const mutation = useMutation({
-    mutationFn: forgotPassword,
+    mutationFn: apiService.forgotPassword,
   })
 
   const onSubmit = (data: { email: string }) => {

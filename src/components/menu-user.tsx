@@ -1,7 +1,7 @@
 'use client'
 
 import { useAuth } from '@/context/auth-context'
-import { deleteUser, updateUsername, updateUserPassword } from '@/services/api'
+import { apiService } from '@/services/api'
 import { changePasswordSchema, changeUsernameSchema } from '@/services/schemas'
 import { UsernameUpdate, UserPasswordUpdate } from '@/types'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -35,7 +35,7 @@ export default function UserMenu() {
   })
 
   const deleteMutation = useMutation({
-    mutationFn: deleteUser,
+    mutationFn: apiService.deleteUser,
     onSuccess: () => {
       query.refetch()
       logout()
@@ -43,7 +43,7 @@ export default function UserMenu() {
   })
 
   const usernameMutation = useMutation({
-    mutationFn: updateUsername,
+    mutationFn: apiService.updateUsername,
     onSuccess: () => {
       setActiveModal(null)
       query.refetch()
@@ -52,7 +52,7 @@ export default function UserMenu() {
   })
 
   const passwordMutation = useMutation({
-    mutationFn: updateUserPassword,
+    mutationFn: apiService.updateUserPassword,
     onSuccess: () => {
       setActiveModal(null)
       query.refetch()

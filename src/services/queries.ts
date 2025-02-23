@@ -1,30 +1,27 @@
 import { useQuery } from '@tanstack/react-query'
-import { fetchPosts, getMe, getVideo, getVideos } from './api'
+import { apiService } from './api'
 
 export function usePosts() {
   return useQuery({
     queryKey: ['posts'],
     queryFn: () => {
-      let posts = fetchPosts()
+      let posts = apiService.fetchPosts()
       return posts
     },
   })
 }
 
-export function useUser(token: string) {
+export function useUser() {
   return useQuery({
     queryKey: ['user'],
-    queryFn: () => {
-      let user = getMe(token)
-      return user
-    },
+    queryFn: () => apiService.getMe,
   })
 }
 
 export function useVideos() {
   return useQuery({
     queryKey: ['videos'],
-    queryFn: getVideos,
+    queryFn: apiService.getVideos,
     staleTime: 1000 * 60,
   })
 }
@@ -32,6 +29,6 @@ export function useVideos() {
 export function useVideo(youtube_id: string) {
   return useQuery({
     queryKey: ['video'],
-    queryFn: () => getVideo(youtube_id),
+    queryFn: () => apiService.getVideo(youtube_id),
   })
 }

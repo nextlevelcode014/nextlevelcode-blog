@@ -1,6 +1,6 @@
 'use client'
 
-import { loginUser } from '@/services/api'
+import { apiService } from '@/services/api'
 import { LoginData } from '@/types'
 import { useMutation } from '@tanstack/react-query'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -24,7 +24,7 @@ export default function LoginForm() {
   const { login } = useAuth()
 
   const loginMutation = useMutation({
-    mutationFn: loginUser,
+    mutationFn: apiService.loginUser,
     onSuccess: (data) => {
       login(data.token)
       router.push('/')

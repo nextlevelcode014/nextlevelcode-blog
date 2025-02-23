@@ -4,13 +4,12 @@
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation } from '@tanstack/react-query'
-import axios from 'axios'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { FaLock, FaCheck } from 'react-icons/fa'
 import { resetPasswordSchema } from '@/services/schemas'
 import { ResetPasswordData } from '@/types'
-import { api_url } from '@/services/api'
 import { useState } from 'react'
+import { apiService } from '@/services/api'
 
 export default function ResetPasswordPage() {
   const [successMessage, setSuccessMessage] = useState(false)
@@ -22,14 +21,9 @@ export default function ResetPasswordPage() {
   } = useForm<ResetPasswordData>({
     resolver: zodResolver(resetPasswordSchema),
   })
-  const token = useSearchParams().get('token')
 
   const mutation = useMutation({
-    mutationFn: (data: ResetPasswordData) =>
-      axios.post(`${api_url}/auth/reset-password`, {
-        ...data,
-        token: token,
-      }),
+    mutationFn: apiService.resetPassword,
     onSuccess: () => {
       setSuccessMessage(true)
       setTimeout(() => {

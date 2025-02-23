@@ -3,7 +3,6 @@ import { useVideo } from '@/services/queries'
 import Loading from './loading'
 import UnderConstruction from './under-construction'
 import { formatViews } from '@/lib/utils'
-import Link from 'next/link'
 import { ArrowLeft } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 

@@ -2,14 +2,6 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
-import {
-  createPost,
-  deleteComment,
-  deletePost,
-  postComment,
-  updateComment,
-  updatePost,
-} from '@/services/api'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useForm } from 'react-hook-form'
 import {
@@ -21,6 +13,7 @@ import { usePosts } from '@/services/queries'
 import { useAuth } from '@/context/auth-context'
 import { ArrowLeft } from 'lucide-react'
 import Loading from './loading'
+import { apiService } from '@/services/api'
 
 export function NewsFeed() {
   const queryClient = useQueryClient()
@@ -33,22 +26,22 @@ export function NewsFeed() {
   const { register, handleSubmit, reset } = useForm<CreatePostData>()
 
   const createPostMutation = useMutation({
-    mutationFn: createPost,
+    mutationFn: apiService.createPost,
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ['posts'] }),
   })
 
   const updatePostMutation = useMutation({
-    mutationFn: updatePost,
+    mutationFn: apiService.updatePost,
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ['posts'] }),
   })
 
   const deletePostMutation = useMutation({
-    mutationFn: deletePost,
+    mutationFn: apiService.deletePost,
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ['posts'] }),
   })
 
   const postCommentMutation = useMutation({
-    mutationFn: postComment,
+    mutationFn: apiService.postComment,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['posts'] })
       setActiveCommentId(null)
@@ -56,12 +49,12 @@ export function NewsFeed() {
   })
 
   const updateCommentMutation = useMutation({
-    mutationFn: updateComment,
+    mutationFn: apiService.updateComment,
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ['posts'] }),
   })
 
   const deleteCommentMutation = useMutation({
-    mutationFn: deleteComment,
+    mutationFn: apiService.deleteComment,
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ['posts'] }),
   })
 

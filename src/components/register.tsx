@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { registerUser } from '@/services/api'
+import { apiService } from '@/services/api'
 import { registerSchema } from '@/services/schemas'
 import { RegisterData } from '@/types'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -23,7 +23,7 @@ export default function Register() {
   } = useForm<RegisterData>({ resolver: zodResolver(registerSchema) })
 
   const registerMutation = useMutation({
-    mutationFn: registerUser,
+    mutationFn: apiService.registerUser,
     onSuccess: () => {
       setSuccessMessage(true)
       reset()

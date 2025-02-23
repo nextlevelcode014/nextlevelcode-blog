@@ -4,7 +4,7 @@ import { useMutation } from '@tanstack/react-query'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { FaEnvelope, FaCheck } from 'react-icons/fa'
 import { useState, useEffect } from 'react'
-import { verifyEmail } from '@/services/api'
+import { apiService } from '@/services/api'
 
 export default function VerifyEmail() {
   const [successMessage, setSuccessMessage] = useState(false)
@@ -12,7 +12,7 @@ export default function VerifyEmail() {
   const router = useRouter()
   const token = useSearchParams().get('token')
   const mutation = useMutation({
-    mutationFn: verifyEmail,
+    mutationFn: apiService.verifyEmail,
     onSuccess: () => {
       setSuccessMessage(true)
       setTimeout(() => {

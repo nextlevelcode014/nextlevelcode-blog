@@ -21,12 +21,12 @@ import { MdDelete } from 'react-icons/md'
 import { ConfirmationModal } from './confirmation-modal'
 import { UsernameUpdate, UserPasswordUpdate } from '@/types'
 import { useMutation } from '@tanstack/react-query'
-import { deleteUser, updateUsername, updateUserPassword } from '@/services/api'
 import { useForm } from 'react-hook-form'
 import { changePasswordSchema, changeUsernameSchema } from '@/services/schemas'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { UserChangeModal } from './user-change-modal'
 import { PasswordChangeModal } from './password-change-modal'
+import { apiService } from '@/services/api'
 
 export const Header = () => {
   const pathname = usePathname()
@@ -50,7 +50,7 @@ export const Header = () => {
 
   // Mutations
   const deleteMutation = useMutation({
-    mutationFn: deleteUser,
+    mutationFn: apiService.deleteUser,
     onSuccess: () => {
       query.refetch()
       logout()
@@ -59,7 +59,7 @@ export const Header = () => {
   })
 
   const usernameMutation = useMutation({
-    mutationFn: updateUsername,
+    mutationFn: apiService.updateUsername,
     onSuccess: () => {
       setActiveModal(null)
       query.refetch()
@@ -69,7 +69,7 @@ export const Header = () => {
   })
 
   const passwordMutation = useMutation({
-    mutationFn: updateUserPassword,
+    mutationFn: apiService.updateUserPassword,
     onSuccess: () => {
       setActiveModal(null)
       query.refetch()

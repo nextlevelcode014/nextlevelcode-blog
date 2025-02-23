@@ -1,409 +1,198 @@
-import axios from 'axios'
+// src/services/api.ts
+import axios, { AxiosError, AxiosInstance, AxiosResponse } from 'axios'
 import {
   CommentData,
   CreatePostData,
   GetVideo,
   LoginData,
+  LoginRespomse,
   PostCommentWithComments,
   RegisterData,
+  ResetPasswordData,
   UpdateComment,
   UpdateNewsPost,
   User,
   UsernameUpdate,
   UserPasswordUpdate,
   Videos,
-} from '../types/index'
+} from '../types'
 
-const api_url = process.env.API_URL
-const api_key = process.env.API_KEY
+// Validar variáveis de ambiente
+const API_URL = process.env.API_URL
+const API_KEY = process.env.API_KEY
 
-export async function fetchPosts() {
-  try {
-    const token = localStorage.getItem('token')
-    return (
-      await axios.get<PostCommentWithComments[]>(
-        `${api_url}/posts/get-all-posts-with-comments`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            'X-Api-Key': api_key,
-          },
-        },
-      )
-    ).data
-  } catch (error: any) {
-    if (error.response) {
-      throw error.response.data
-    } else if (error.request) {
-      throw new Error('Service unavailable, try again later.')
-    } else {
-      throw new Error(error.message)
-    }
-  }
+interface ApiErrorResponse {
+  message: string
+  // Adicione outros campos comuns de erro aqui
+}
+type CustomAxiosError = AxiosError<ApiErrorResponse>
+if (!API_URL || !API_KEY) {
+  throw new Error(
+    'Missing required environment variables: API_URL and API_KEY must be set',
+  )
 }
 
-export async function createPost(data: CreatePostData) {
-  try {
-    const token = localStorage.getItem('token')
+// Configurar instância Axios com defaults
+const apiClient: AxiosInstance = axios.create({
+  baseURL: API_URL,
+  headers: {
+    'Content-Type': 'application/json',
+    'X-Api-Key': API_KEY,
+  },
+})
 
-    return (
-      await axios.post(
-        `${api_url}/posts/create-post/${data.id}`,
-        {
-          description: data.description,
-          url: data.url,
-          authorName: data.authorName,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-
-            'X-Api-Key': api_key,
-          },
-        },
-      )
-    ).data
-  } catch (error) {
-    throw new Error(`Failed to create post: ${error}`)
+// Request interceptor para injetar token
+apiClient.interceptors.request.use((config) => {
+  const token = localStorage.getItem('token')
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`
   }
-}
+  return config
+})
 
-export async function updatePost(data: UpdateNewsPost) {
-  console.log(data.post_id)
-  try {
-    const token = localStorage.getItem('token')
+apiClient.interceptors.response.use(
+  (response: AxiosResponse) => response,
+  (error: CustomAxiosError) => {
+    const errorMessage = getErrorMessage(error)
+    return Promise.reject(new Error(errorMessage))
+  },
+)
 
-    if (!token) {
-      throw new Error('Token not found. Please log in again.')
+function getErrorMessage(error: CustomAxiosError): string {
+  // Caso 1: Erro de rede/sem resposta
+  if (!error.response) {
+    return error.message || 'Network error - please check your connection'
+  }
+
+  // Caso 2: Resposta HTTP com dados estruturados
+  const responseData = error.response.data
+
+  // Verificação de tipo segura
+  if (typeof responseData === 'object' && responseData !== null) {
+    // Type guard para mensagem de erro
+    if ('message' in responseData && typeof responseData.message === 'string') {
+      return responseData.message
     }
 
-    const response = await axios.put(
-      `${api_url}/posts/update-post/${data.post_id}`,
-      { description: data.description, url: data.url },
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          'X-Api-Key': api_key,
-        },
-      },
-    )
+    // Adicione outros formatos de erro conhecidos aqui
+    if ('error' in responseData && typeof responseData.error === 'string') {
+      return responseData.error
+    }
+  }
 
-    console.log(await response.data)
+  // Caso 3: Resposta inesperada/não estruturada
+  return `Unexpected error: ${error.response.status} ${error.response.statusText}`
+}
+
+// Tipos auxiliares
+type ApiResponse<T> = Promise<T>
+type ApiError = Error
+
+// Funções auxiliares
+const handleRequest = async <T>(
+  request: Promise<AxiosResponse<T>>,
+): ApiResponse<T> => {
+  try {
+    const response = await request
     return response.data
   } catch (error) {
-    throw new Error(`Failed to update post: ${error}`)
+    return Promise.reject(error)
   }
 }
 
-export async function getVideos() {
-  try {
-    const token = localStorage.getItem('token')
+// Serviços API
+export const apiService = {
+  // Posts
+  fetchPosts: (): ApiResponse<PostCommentWithComments[]> =>
+    handleRequest(apiClient.get('/posts/get-all-posts-with-comments')),
 
-    if (!token) {
-      throw new Error('Token not found. Please log in again.')
-    }
+  createPost: (data: CreatePostData): ApiResponse<void> =>
+    handleRequest(
+      apiClient.post(`/posts/create-post/${data.id}`, {
+        description: data.description,
+        url: data.url,
+        authorName: data.authorName,
+      }),
+    ),
 
-    const response = await axios.get<Videos[]>(`${api_url}/posts/videos`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-        'X-Api-Key': api_key,
-      },
-    })
+  updatePost: (data: UpdateNewsPost): ApiResponse<void> =>
+    handleRequest(
+      apiClient.put(`/posts/update-post/${data.post_id}`, {
+        description: data.description,
+        url: data.url,
+      }),
+    ),
 
-    return response.data
-  } catch (error) {
-    throw new Error(`Failed to update post: ${error}`)
-  }
-}
+  deletePost: (postId: string): ApiResponse<void> =>
+    handleRequest(apiClient.delete(`/posts/delete-post/${postId}`)),
 
-export async function getVideo(youtube_id: string) {
-  try {
-    const token = localStorage.getItem('token')
+  // Comentários
+  postComment: (data: CommentData): ApiResponse<void> =>
+    handleRequest(
+      apiClient.post(`/posts/create-comment/${data.authorId}`, {
+        id: data.post_id,
+        content: data.comment,
+        authorName: data.authorName,
+      }),
+    ),
 
-    if (!token) {
-      throw new Error('Token not found. Please log in again.')
-    }
+  updateComment: (data: UpdateComment): ApiResponse<void> =>
+    handleRequest(
+      apiClient.put(`/posts/update-comment/${data.commentId}`, {
+        content: data.comment,
+      }),
+    ),
 
-    const response = await axios.get<GetVideo>(
-      `${api_url}/posts/get-video/${youtube_id}`,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          'X-Api-Key': api_key,
-        },
-      },
-    )
+  deleteComment: (commentId: string): ApiResponse<void> =>
+    handleRequest(apiClient.delete(`/posts/delete-comment/${commentId}`)),
 
-    return response.data
-  } catch (error) {
-    throw new Error(`Failed to update post: ${error}`)
-  }
-}
+  // Vídeos
+  getVideos: (): ApiResponse<Videos[]> =>
+    handleRequest(apiClient.get('/posts/videos')),
 
-export async function updateComment(data: UpdateComment) {
-  try {
-    const token = localStorage.getItem('token')
+  getVideo: (youtubeId: string): ApiResponse<GetVideo> =>
+    handleRequest(apiClient.get(`/posts/get-video/${youtubeId}`)),
 
-    return (
-      await axios.put(
-        `${api_url}/posts/update-comment/${data.commentId}`,
-        {
-          content: data.comment,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            'X-Api-Key': api_key,
-          },
-        },
-      )
-    ).data
-  } catch (error) {
-    throw new Error(`Failed to create post: ${error}`)
-  }
-}
+  // Autenticação
+  loginUser: (data: LoginData): ApiResponse<LoginRespomse> =>
+    handleRequest(apiClient.post('/auth/login', data)),
 
-export async function deletePost(post_id: string) {
-  try {
-    const token = localStorage.getItem('token')
+  registerUser: (data: RegisterData): ApiResponse<void> =>
+    handleRequest(
+      apiClient.post('/auth/register', {
+        ...data,
+        passwordConfirm: data.confirmPassword,
+      }),
+    ),
 
-    return (
-      await axios.delete(`${api_url}/posts/delete-post/${post_id}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          'X-Api-Key': api_key,
-        },
-      })
-    ).data
-  } catch (error) {
-    throw new Error(`Failed to create post: ${error}`)
-  }
-}
+  verifyEmail: (token: string): ApiResponse<void> =>
+    handleRequest(apiClient.get(`/auth/verify-email?token=${token}`)),
 
-export async function deleteComment(commentId: string) {
-  try {
-    const token = localStorage.getItem('token')
+  resetPassword: (data: ResetPasswordData): ApiResponse<void> =>
+    handleRequest(
+      apiClient.post('/auth/reset-password', {
+        ...data,
+        token: localStorage.getItem('token'),
+      }),
+    ),
 
-    return (
-      await axios.delete(`${api_url}/posts/delete-comment/${commentId}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          'X-Api-Key': api_key,
-        },
-      })
-    ).data
-  } catch (error) {
-    throw new Error(`Failed to create post: ${error}`)
-  }
-}
+  forgotPassword: (email: string): ApiResponse<void> =>
+    handleRequest(apiClient.post('/auth/forgot-password', { email })),
 
-export async function postComment(data: CommentData) {
-  try {
-    const token = localStorage.getItem('token')
+  // Usuários
+  getMe: (): ApiResponse<User> => handleRequest(apiClient.get('/users/me')),
 
-    return (
-      await axios.post(
-        `${api_url}/posts/create-comment/${data.authorId}`,
-        {
-          id: data.post_id,
-          content: data.comment,
-          authorName: data.authorName,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            'X-Api-Key': api_key,
-          },
-        },
-      )
-    ).data
-  } catch (error) {
-    throw new Error(`Failed to create post: ${error}`)
-  }
-}
+  deleteUser: (userId: string): ApiResponse<void> =>
+    handleRequest(apiClient.delete(`/users/delete/${userId}`)),
 
-export async function fetchPostVideo(): Promise<string[]> {
-  try {
-    const res = await axios.get(`${api_url}/posts/videos`)
-    return res.data
-  } catch (error) {
-    throw new Error(`Failed to fetch posts: ${error}}`)
-  }
-}
+  updateUserPassword: (data: UserPasswordUpdate): ApiResponse<void> =>
+    handleRequest(apiClient.put('/users/update-password', data)),
 
-export const loginUser = async (data: LoginData) => {
-  try {
-    const response = await axios.post(`${api_url}/auth/login`, data, {
-      headers: {
-        'X-Api-Key': api_key,
-      },
-    })
-    return response.data
-  } catch (error: any) {
-    if (error.response) {
-      throw error.response.data
-    } else if (error.request) {
-      throw new Error('Service unavailable, try again later.')
-    } else {
-      throw new Error(error.message)
-    }
-  }
-}
-
-export const registerUser = async (data: RegisterData) => {
-  try {
-    const response = await axios.post(`${api_url}/auth/register`, {
-      ...data,
-      passwordConfirm: data.confirmPassword,
-
-      headers: {
-        'X-Api-Key': api_key,
-      },
-    })
-    return response.data
-  } catch (error: any) {
-    if (error.response) {
-      throw error.response.data
-    } else if (error.request) {
-      throw new Error('Service unavailable, try again later.')
-    } else {
-      throw new Error(error.message)
-    }
-  }
-}
-
-export const verifyEmail = async (token: string) => {
-  try {
-    const response = await axios.get(
-      `${api_url}/auth/verify-email?token=${token}`,
-
-      {
-        headers: {
-          'X-Api-Key': api_key,
-        },
-      },
-    )
-    return response.data
-  } catch (error: any) {
-    if (error.response) {
-      throw error.response.data
-    } else if (error.request) {
-      throw new Error('Service unavailable, try again later.')
-    } else {
-      throw new Error(error.message)
-    }
-  }
-}
-
-export const getMe = async (token: string) => {
-  try {
-    const response = await axios.get<User>(`${api_url}/users/me`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-        'X-Api-Key': api_key,
-      },
-    })
-    return response.data
-  } catch (error: any) {
-    if (error.response) {
-      throw error.response.data
-    } else if (error.request) {
-      throw new Error('Service unavailable, try again later.')
-    } else {
-      throw new Error(error.message)
-    }
-  }
-}
-
-export const deleteUser = async (user_id: string) => {
-  try {
-    const token = localStorage.getItem('token')
-    const response = await axios.delete(`${api_url}/users/delete/${user_id}`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-        'X-Api-Key': api_key,
-      },
-    })
-    return response.data
-  } catch (error: any) {
-    if (error.response) {
-      throw error.response.data
-    } else if (error.request) {
-      throw new Error('Service unavailable, try again later.')
-    } else {
-      throw new Error(error.message)
-    }
-  }
-}
-
-export const updateUserPassword = async (data: UserPasswordUpdate) => {
-  try {
-    const token = localStorage.getItem('token')
-    if (!token) throw new Error('Token não encontrado')
-
-    const response = await axios.put(`${api_url}/users/update-password`, data, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-        'X-Api-Key': api_key,
-      },
-    })
-
-    return response.data
-  } catch (error: any) {
-    if (error.response) {
-      throw error.response.data
-    } else if (error.request) {
-      throw new Error('Service unavailable, try again later.')
-    } else {
-      throw new Error(error.message)
-    }
-  }
-}
-
-export const updateUsername = async (data: UsernameUpdate) => {
-  try {
-    const token = localStorage.getItem('token')
-    if (!token) throw new Error('Token not found. Please log in again.')
-
-    const response = await axios.put(
-      `${api_url}/users/update-username`,
-      { name: data.name, password: data.password },
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          'X-Api-Key': api_key,
-        },
-      },
-    )
-    return response.data
-  } catch (error: any) {
-    if (error.response) {
-      throw error.response.data
-    } else if (error.request) {
-      throw new Error('Service unavailable, try again later.')
-    } else {
-      throw new Error(error.message)
-    }
-  }
-}
-
-export const forgotPassword = async (email: string) => {
-  try {
-    let response = await axios.post(`${api_url}/auth/forgot-password`, {
-      email,
-
-      headers: {
-        'X-Api-Key': api_key,
-      },
-    })
-    return response.data
-  } catch (error: any) {
-    if (error.response) {
-      throw error.response.data
-    } else if (error.request) {
-      throw new Error('Service unavailable, try again later.')
-    } else {
-      throw new Error(error.message)
-    }
-  }
+  updateUsername: (data: UsernameUpdate): ApiResponse<void> =>
+    handleRequest(
+      apiClient.put('/users/update-username', {
+        name: data.name,
+        password: data.password,
+      }),
+    ),
 }

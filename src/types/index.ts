@@ -62,6 +62,10 @@ export type LoginData = {
   email: string
   password: string
 }
+export type LoginRespomse = {
+  status: string
+  token: string
+}
 export interface User {
   status: string
   data: {

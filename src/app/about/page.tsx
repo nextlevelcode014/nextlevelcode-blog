@@ -7,7 +7,6 @@ export default function AboutPage() {
   return (
     <section className="min-h-screen bg-gradient-to-br from-zinc-900 to-blue-900/20 py-12 sm:py-16 lg:py-20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 md:flex md:items-start md:gap-8 lg:gap-16">
-        {/* Seção da Foto */}
         <div className="md:w-1/3 mb-8 md:mb-0">
           <div className="relative group hover:scale-[1.02] transition-transform duration-300">
             <div className="absolute inset-0 bg-blue-500/20 rounded-xl lg:rounded-2xl transform rotate-2 group-hover:rotate-1 transition-all" />
@@ -27,13 +26,19 @@ export default function AboutPage() {
             </h3>
             <div className="flex justify-center gap-3 sm:gap-4">
               <Link
-                href="github.com/m4rc3l04ugu2t0"
+                href="https://github.com/m4rc3l04ugu2t0"
+                target="_blank"
+                rel="noopener noreferrer"
+                replace
                 className={`${stylesComponets.socialLink} px-4 py-2 text-sm sm:text-base`}
               >
                 GitHub
               </Link>
               <Link
-                href="x.com/next_level_code"
+                href="https://x.com/next_level_code"
+                target="_blank"
+                rel="noopener noreferrer"
+                replace
                 className={`${stylesComponets.socialLink} px-4 py-2 text-sm sm:text-base`}
               >
                 X
@@ -42,7 +47,6 @@ export default function AboutPage() {
           </div>
         </div>
 
-        {/* Conteúdo Textual */}
         <div className="md:w-2/3 space-y-6 lg:space-y-8">
           <h1
             className={`${stylesComponets.headingStyle} text-3xl sm:text-4xl lg:text-5xl`}

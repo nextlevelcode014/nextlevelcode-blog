@@ -1,4 +1,4 @@
-import { NewsFeed } from '@/components/news-feed'
+import { NewsFeed } from '@/components/feed-componets/news-feed'
 import ProtectedRoute from '@/components/protected-route'
 import { ArrowLeft } from 'lucide-react'
 import Link from 'next/link'

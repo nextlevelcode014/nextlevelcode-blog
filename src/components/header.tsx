@@ -14,7 +14,7 @@ import {
   FaUserEdit,
   FaKey,
 } from 'react-icons/fa'
-import UserMenu from './menu-user'
+import UserMenu from './menu-user-components/menu-user'
 import { useAuth } from '@/context/auth-context'
 import { useState, useRef, useEffect } from 'react'
 import { MdDelete } from 'react-icons/md'
@@ -24,9 +24,14 @@ import { useMutation } from '@tanstack/react-query'
 import { useForm } from 'react-hook-form'
 import { changePasswordSchema, changeUsernameSchema } from '@/services/schemas'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { UserChangeModal } from './user-change-modal'
-import { PasswordChangeModal } from './password-change-modal'
+import { UserChangeModal } from './menu-user-components/user-change-modal'
+import { PasswordChangeModal } from './auth-componets/password-change-modal'
 import { apiService } from '@/services/api'
+import {
+  useDeleteUserMutation,
+  usePasswordMutation,
+  useUsernameMutation,
+} from '@/services/muations'
 
 export const Header = () => {
   const pathname = usePathname()
@@ -37,7 +42,6 @@ export const Header = () => {
   >(null)
   const menuRef = useRef<HTMLDivElement>(null)
 
-  // Formulários
   const usernameForm = useForm<UsernameUpdate>({
     resolver: zodResolver(changeUsernameSchema),
     mode: 'onChange',
@@ -48,35 +52,11 @@ export const Header = () => {
     mode: 'onChange',
   })
 
-  // Mutations
-  const deleteMutation = useMutation({
-    mutationFn: apiService.deleteUser,
-    onSuccess: () => {
-      query.refetch()
-      logout()
-      setIsMenuOpen(false)
-    },
-  })
+  const deleteMutation = useDeleteUserMutation()
 
-  const usernameMutation = useMutation({
-    mutationFn: apiService.updateUsername,
-    onSuccess: () => {
-      setActiveModal(null)
-      query.refetch()
-      usernameForm.reset()
-      setIsMenuOpen(false)
-    },
-  })
+  const usernameMutation = useUsernameMutation()
 
-  const passwordMutation = useMutation({
-    mutationFn: apiService.updateUserPassword,
-    onSuccess: () => {
-      setActiveModal(null)
-      query.refetch()
-      passwordForm.reset()
-      setIsMenuOpen(false)
-    },
-  })
+  const passwordMutation = usePasswordMutation()
 
   const handleConfirmAction = () => {
     if (activeModal === 'delete' && query.data?.data.user.id) {
@@ -94,7 +74,26 @@ export const Header = () => {
     passwordMutation.mutate(data)
   }
 
-  // Fechar menu ao clicar fora
+  useEffect(() => {
+    query.refetch()
+    logout()
+    setIsMenuOpen(false)
+  }, [deleteMutation.isSuccess])
+
+  useEffect(() => {
+    setActiveModal(null)
+    query.refetch()
+    usernameForm.reset()
+    setIsMenuOpen(false)
+  }, [usernameMutation.isSuccess])
+
+  useEffect(() => {
+    setActiveModal(null)
+    query.refetch()
+    passwordForm.reset()
+    setIsMenuOpen(false)
+  }, [passwordMutation.isSuccess])
+
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
@@ -116,7 +115,6 @@ export const Header = () => {
         className="max-w-6xl mx-auto flex justify-between items-center"
         ref={menuRef}
       >
-        {/* Logo Section */}
         <div className="flex items-center gap-1">
           <Image
             src={Profile}
@@ -294,7 +292,6 @@ export const Header = () => {
                   </Link>
                 </li>
 
-                {/* Authentication Section */}
                 {isAuthenticated ? (
                   <>
                     <div className="border-t border-gray-800 mt-4 pt-4 space-y-3">

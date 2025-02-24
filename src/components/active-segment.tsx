@@ -1,15 +1,10 @@
 'use client'
 
-import { usePosts } from '@/services/queries'
 import Link from 'next/link'
 import { usePathname, useSelectedLayoutSegment } from 'next/navigation'
 import { ReactNode } from 'react'
 import SearchBar from './search-bar'
 import PostNotFound from './search-not-found'
-
-interface SearchFormData {
-  searchQuery: string
-}
 
 export default function ActiveSegment({
   posts,
@@ -37,7 +32,7 @@ export default function ActiveSegment({
               : 'hover:bg-gray-800 hover:text-blue-400'
           }`}
         >
-          Artigos 📝
+          Articles 📝
         </Link>
         <Link
           href="/news/videos"
@@ -53,14 +48,13 @@ export default function ActiveSegment({
 
       <SearchBar />
 
-      {/* Content Area */}
       {isValidRoute ? (
         <div className="mt-8">
           {activeSegment === 'posts' && posts}
           {activeSegment === 'videos' && videos}
           {isHome && (
             <div className="text-center text-gray-400">
-              Selecione uma categoria acima
+              Select a category above
             </div>
           )}
         </div>

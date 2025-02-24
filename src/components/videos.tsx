@@ -2,7 +2,7 @@
 
 import { useSearchParams } from 'next/navigation'
 import { useVideos } from '@/services/queries'
-import UnderConstruction from './under-construction'
+import UnderConstruction from './error-componets/under-construction'
 import Loading from './loading'
 import Link from 'next/link'
 import SearchNotFound from './search-not-found'

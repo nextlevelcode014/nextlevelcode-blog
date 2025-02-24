@@ -10,10 +10,15 @@ import { useState, useRef, useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { FaKey, FaSignOutAlt, FaUserCircle, FaUserEdit } from 'react-icons/fa'
 import { MdDelete } from 'react-icons/md'
-import { ConfirmationModal } from './confirmation-modal'
+import { ConfirmationModal } from '../confirmation-modal'
 import { UserChangeModal } from './user-change-modal'
-import { PasswordChangeModal } from './password-change-modal'
+import { PasswordChangeModal } from '../auth-componets/password-change-modal'
 import { MenuItem } from './menu-item'
+import {
+  useDeleteUserMutation,
+  usePasswordMutation,
+  useUsernameMutation,
+} from '@/services/muations'
 
 export default function UserMenu() {
   const { isAuthenticated, logout, query } = useAuth()
@@ -34,31 +39,28 @@ export default function UserMenu() {
     mode: 'onChange',
   })
 
-  const deleteMutation = useMutation({
-    mutationFn: apiService.deleteUser,
-    onSuccess: () => {
-      query.refetch()
-      logout()
-    },
-  })
+  const deleteMutation = useDeleteUserMutation()
 
-  const usernameMutation = useMutation({
-    mutationFn: apiService.updateUsername,
-    onSuccess: () => {
-      setActiveModal(null)
-      query.refetch()
-      usernameForm.reset()
-    },
-  })
+  const usernameMutation = useUsernameMutation()
 
-  const passwordMutation = useMutation({
-    mutationFn: apiService.updateUserPassword,
-    onSuccess: () => {
-      setActiveModal(null)
-      query.refetch()
-      passwordForm.reset()
-    },
-  })
+  const passwordMutation = usePasswordMutation()
+
+  useEffect(() => {
+    query.refetch()
+    logout()
+  }, [deleteMutation.isSuccess])
+
+  useEffect(() => {
+    setActiveModal(null)
+    query.refetch()
+    usernameForm.reset()
+  }, [usernameMutation.isSuccess])
+
+  useEffect(() => {
+    setActiveModal(null)
+    query.refetch()
+    passwordForm.reset()
+  }, [passwordMutation.isSuccess])
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {

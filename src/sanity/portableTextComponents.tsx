@@ -1,8 +1,8 @@
 import Image from 'next/image'
 import { PortableTextComponents } from 'next-sanity'
 import { urlFor } from '@/sanity/lib/image'
-import CodeBlock from '@/components/code-block'
-import YoutubeEmbed from '@/components/youtube-embed'
+import CodeBlock from '@/components/post-componets/code-block'
+import YoutubeEmbed from '@/components/post-componets/youtube-embed'
 
 export const components: PortableTextComponents = {
   types: {

@@ -1,4 +1,3 @@
-// components/PostImage.tsx
 'use client'
 
 import Image from 'next/image'
@@ -13,14 +12,10 @@ export function PostImage({ image, alt }: { image: any; alt: string }) {
         fill
         className="object-contain p-4"
         sizes="(max-width: 768px) 100vw, 85vw"
-        onError={(e) => {
-          console.error('Erro ao carregar imagem:', e)
-          e.currentTarget.style.display = 'none'
-        }}
       />
       {!image?.asset && (
         <div className="absolute inset-0 flex items-center justify-center text-gray-500">
-          Imagem não disponível
+          Imagem not available
         </div>
       )}
     </div>

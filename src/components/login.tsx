@@ -11,6 +11,7 @@ import { FiArrowRight } from 'react-icons/fi'
 import { loginSchema } from '@/services/schemas'
 import { useAuth } from '@/context/auth-context'
 import Link from 'next/link'
+import { loginMutation } from '@/services/muations'
 
 export default function LoginForm() {
   const {
@@ -22,14 +23,6 @@ export default function LoginForm() {
   })
   const router = useRouter()
   const { login } = useAuth()
-
-  const loginMutation = useMutation({
-    mutationFn: apiService.loginUser,
-    onSuccess: (data) => {
-      login(data.token)
-      router.push('/')
-    },
-  })
 
   const handleLogin = (data: LoginData) => {
     loginMutation.mutate({ email: data.email, password: data.password })

@@ -41,7 +41,7 @@ export default function ForgotPasswordPage() {
           </h2>
           {mutation.isSuccess ? (
             <p className="mt-2 text-center text-sm text-green-600">
-              ✅ Sent e-email!
+              ✅ Sent e-mail!
             </p>
           ) : (
             <p className="mt-2 text-center text-sm text-gray-600">

@@ -1,17 +1,14 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { apiService } from '@/services/api'
 import { registerSchema } from '@/services/schemas'
 import { RegisterData } from '@/types'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useMutation } from '@tanstack/react-query'
 import { useRouter } from 'next/navigation'
 import { useForm } from 'react-hook-form'
-import { FaEnvelope, FaLock, FaUser, FaUserPlus } from 'react-icons/fa'
-import { FiArrowRight } from 'react-icons/fi'
 import RegisterForm from './register-form'
 import { useRegisterMutation } from '@/services/muations'
+import { FaUserPlus } from 'react-icons/fa'
 
 export default function Register() {
   const [successMessage, setSuccessMessage] = useState(false)
@@ -29,10 +26,8 @@ export default function Register() {
 
   const registerMutation = useRegisterMutation()
 
-  const handleRegister = async (data: RegisterData) => {
-    try {
-      await registerMutation.mutateAsync(data)
-    } catch (error) {}
+  const handleRegister = (data: RegisterData) => {
+    registerMutation.mutate(data)
   }
 
   useEffect(() => {

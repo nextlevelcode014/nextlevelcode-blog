@@ -10,6 +10,7 @@ import LoginForm from './login-form'
 import { useRouter } from 'next/navigation'
 import { useAuth } from '@/context/auth-context'
 import { useLoginMuation } from '@/services/muations'
+import { useEffect } from 'react'
 
 export default function Login() {
   const {
@@ -24,12 +25,16 @@ export default function Login() {
   const router = useRouter()
   const { login } = useAuth()
 
-  const handleLogin = async (data: LoginData) => {
-    const result = await loginMuation.mutateAsync(data)
-    login(result.token)
-    router.push('/')
+  const handleLogin = (data: LoginData) => {
+    loginMuation.mutate(data)
   }
 
+  useEffect(() => {
+    if (loginMuation.data) {
+      login(loginMuation.data.token)
+      router.push('/')
+    }
+  }, [loginMuation.isSuccess])
   return (
     <div className="bg-[#242424] p-4 sm:p-6 rounded-lg w-full max-w-[90vw] ml-auto mr-auto mt-auto sm:max-w-md relative mx-4">
       <div className="text-center mb-6 sm:mb-8">

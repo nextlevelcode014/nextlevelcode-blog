@@ -154,9 +154,10 @@ export const apiService = {
     handleRequest(apiClient.get(`/posts/get-video/${youtubeId}`)),
 
   // Autenticação
-  loginUser: (data: LoginData): ApiResponse<LoginRespomse> =>
-    handleRequest(apiClient.post('/auth/login', data)),
-
+  loginUser: (data: LoginData): ApiResponse<LoginRespomse> => {
+    console.log(data.password)
+    return handleRequest(apiClient.post('/auth/login', data))
+  },
   registerUser: (data: RegisterData): ApiResponse<void> =>
     handleRequest(
       apiClient.post('/auth/register', {

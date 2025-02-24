@@ -1,5 +1,5 @@
 // app/blog/@posts/page.tsx
-import { PostList } from '@/components/posts-list'
+import { PostList } from '@/components/post-componets/posts-list'
 import { sanityFetch } from '@/sanity/lib/live'
 import { POSTS_QUERY } from '@/sanity/lib/queries'
 

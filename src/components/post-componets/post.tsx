@@ -4,10 +4,10 @@ import { POST_QUERYResult } from '@/sanity/types'
 import { urlFor } from '@/sanity/lib/image'
 import Image from 'next/image'
 import Link from 'next/link'
-import { Author } from './author'
+import { ArrowLeft } from 'lucide-react'
 import { Categories } from './categories'
 import { PublishedAt } from './published-at'
-import { ArrowLeft } from 'lucide-react'
+import { Author } from './author'
 
 export function Post(props: NonNullable<POST_QUERYResult>) {
   const { title, author, mainImage, body, publishedAt, categories } = props

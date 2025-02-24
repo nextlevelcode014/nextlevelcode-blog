@@ -1,14 +1,14 @@
 'use client'
 
 import { POSTS_QUERYResult } from '@/sanity/types'
-import { PublishedAt } from '@/components/published-at'
+import { PublishedAt } from '@/components/post-componets/published-at'
 import { urlFor } from '@/sanity/lib/image'
 import Image from 'next/image'
 import Link from 'next/link'
 import { FiClock, FiTag, FiUser, FiArrowRight } from 'react-icons/fi'
 import { useSearchParams } from 'next/navigation'
-import PostNotFound from './search-not-found'
 import { Author } from './author'
+import SearchNotFound from '../search-not-found'
 
 export function PostList({ posts }: { posts?: POSTS_QUERYResult }) {
   const searchParams = useSearchParams()
@@ -23,7 +23,7 @@ export function PostList({ posts }: { posts?: POSTS_QUERYResult }) {
       {filteredPosts?.length ? (
         filteredPosts?.map((post) => <PostCard key={post._id} {...post} />)
       ) : (
-        <PostNotFound />
+        <SearchNotFound />
       )}
     </div>
   )
@@ -50,7 +50,6 @@ function PostCard(props: POSTS_QUERYResult[0]) {
             )}
           </div>
 
-          {/* Conteúdo */}
           <div className="flex-1 space-y-4">
             {categories && categories.length > 0 && (
               <div className="flex flex-wrap gap-2">

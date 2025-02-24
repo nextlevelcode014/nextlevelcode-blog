@@ -18,8 +18,8 @@ const nextConfig: NextConfig = {
         hostname: 'images.unsplash.com',
       },
       {
-        protocol: 'http',
-        hostname: 'localhost:3000',
+        protocol: 'https',
+        hostname: 'nextlevelblog.onrender.com',
       },
     ],
     formats: ['image/webp'],

@@ -16,7 +16,7 @@ import {
   Videos,
 } from '../types'
 
-const API_URL = process.env.PUBLIC_NEXT_API_URL
+const API_URL = process.env.NEXT_PUBLICTAPI_URL
 const API_KEY = process.env.API_KEY
 
 interface ApiErrorResponse {

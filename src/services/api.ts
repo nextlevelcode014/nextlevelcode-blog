@@ -25,7 +25,7 @@ interface ApiErrorResponse {
 type CustomAxiosError = AxiosError<ApiErrorResponse>
 if (!API_URL || !API_KEY) {
   throw new Error(
-    'Missing required environment variables: API_URL and API_KEY must be set',
+    'Missing required environment variables: NEXT_PUBLIC_API_URL and API_KEY must be set',
   )
 }
 

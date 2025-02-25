@@ -4,7 +4,7 @@ import {
   CreatePostData,
   GetVideo,
   LoginData,
-  LoginRespomse,
+  LoginResponse,
   PostCommentWithComments,
   RegisterData,
   ResetPasswordData,
@@ -74,7 +74,6 @@ function getErrorMessage(error: CustomAxiosError): string {
 }
 
 type ApiResponse<T> = Promise<T>
-type ApiError = Error
 
 const handleRequest = async <T>(
   request: Promise<AxiosResponse<T>>,
@@ -136,7 +135,7 @@ export const apiService = {
   getVideo: (youtubeId: string): ApiResponse<GetVideo> =>
     handleRequest(apiClient.get(`/posts/get-video/${youtubeId}`)),
 
-  loginUser: (data: LoginData): ApiResponse<LoginRespomse> =>
+  loginUser: (data: LoginData): ApiResponse<LoginResponse> =>
     handleRequest(apiClient.post('/auth/login', data)),
   registerUser: (data: RegisterData): ApiResponse<void> =>
     handleRequest(

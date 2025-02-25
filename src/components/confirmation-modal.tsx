@@ -1,3 +1,4 @@
+'use client'
 export const ConfirmationModal = ({
   isOpen,
   title,

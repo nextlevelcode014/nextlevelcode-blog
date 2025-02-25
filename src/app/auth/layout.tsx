@@ -1,4 +1,3 @@
-// app/(auth)/layout.tsx
 import styles from './auth.module.css'
 import ActiveSegment from './active-segment'
 import Provider from '@/services/provider'

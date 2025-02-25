@@ -58,11 +58,11 @@ export interface UpdateComment {
 export interface Videos {
   videos: string[]
 }
-export type LoginData = {
+export interface LoginData {
   email: string
   password: string
 }
-export type LoginRespomse = {
+export interface LoginResponse {
   status: string
   token: string
 }

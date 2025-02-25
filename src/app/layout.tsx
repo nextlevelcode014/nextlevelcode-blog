@@ -10,7 +10,7 @@ export const metadata: Metadata = {
   title: 'NextLevelCodeBlog',
   description: 'Next Level Code Blog sobre Linux, programação e Bitcoin',
   icons: {
-    icon: '/assets/favicon.ico', // Caminho corrigido
+    icon: '/assets/favicon.ico',
   },
   openGraph: {
     title: 'NextLevelCodeBlog',
@@ -38,7 +38,6 @@ export default function RootLayout({ children }: { children: ReactNode }) {
   )
 }
 
-// Footer separado para melhor organização
 function Footer() {
   return (
     <footer className="bg-[#0f0f0f] text-gray-100 text-center p-4 mt-auto border-t border-gray-700">

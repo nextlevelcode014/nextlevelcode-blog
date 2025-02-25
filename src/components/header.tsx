@@ -20,13 +20,11 @@ import { useState, useRef, useEffect } from 'react'
 import { MdDelete } from 'react-icons/md'
 import { ConfirmationModal } from './confirmation-modal'
 import { UsernameUpdate, UserPasswordUpdate } from '@/types'
-import { useMutation } from '@tanstack/react-query'
 import { useForm } from 'react-hook-form'
 import { changePasswordSchema, changeUsernameSchema } from '@/services/schemas'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { UserChangeModal } from './menu-user-components/user-change-modal'
 import { PasswordChangeModal } from './auth-componets/password-change-modal'
-import { apiService } from '@/services/api'
 import {
   useDeleteUserMutation,
   usePasswordMutation,
@@ -44,12 +42,12 @@ export const Header = () => {
 
   const usernameForm = useForm<UsernameUpdate>({
     resolver: zodResolver(changeUsernameSchema),
-    mode: 'onChange',
+    mode: 'onBlur',
   })
 
   const passwordForm = useForm<UserPasswordUpdate>({
     resolver: zodResolver(changePasswordSchema),
-    mode: 'onChange',
+    mode: 'onBlur',
   })
 
   const deleteMutation = useDeleteUserMutation()
@@ -75,25 +73,32 @@ export const Header = () => {
   }
 
   useEffect(() => {
-    query.refetch()
-    logout()
-    setIsMenuOpen(false)
-  }, [deleteMutation.isSuccess])
+    if (deleteMutation.isSuccess) {
+      logout()
+      setIsMenuOpen(false)
+      deleteMutation.reset()
+    }
+  }, [deleteMutation.isSuccess, logout, deleteMutation])
 
   useEffect(() => {
-    setActiveModal(null)
-    query.refetch()
-    usernameForm.reset()
-    setIsMenuOpen(false)
-  }, [usernameMutation.isSuccess])
+    if (usernameMutation.isSuccess) {
+      setActiveModal(null)
+      query.refetch()
+      usernameForm.reset()
+      setIsMenuOpen(false)
+      usernameMutation.reset()
+    }
+  }, [usernameMutation.isSuccess, query, usernameForm, usernameMutation])
 
   useEffect(() => {
-    setActiveModal(null)
-    query.refetch()
-    passwordForm.reset()
-    setIsMenuOpen(false)
-  }, [passwordMutation.isSuccess])
-
+    if (passwordMutation.isSuccess) {
+      setActiveModal(null)
+      query.refetch()
+      passwordForm.reset()
+      setIsMenuOpen(false)
+      passwordMutation.reset()
+    }
+  }, [passwordMutation.isSuccess, query, passwordForm, passwordMutation])
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (menuRef.current && !menuRef.current.contains(event.target as Node)) {

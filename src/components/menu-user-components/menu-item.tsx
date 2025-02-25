@@ -1,3 +1,4 @@
+'use client'
 export const MenuItem = ({
   icon,
   label,

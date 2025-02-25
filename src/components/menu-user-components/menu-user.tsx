@@ -1,11 +1,9 @@
 'use client'
 
 import { useAuth } from '@/context/auth-context'
-import { apiService } from '@/services/api'
 import { changePasswordSchema, changeUsernameSchema } from '@/services/schemas'
 import { UsernameUpdate, UserPasswordUpdate } from '@/types'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useMutation } from '@tanstack/react-query'
 import { useState, useRef, useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { FaKey, FaSignOutAlt, FaUserCircle, FaUserEdit } from 'react-icons/fa'
@@ -31,36 +29,41 @@ export default function UserMenu() {
 
   const usernameForm = useForm<UsernameUpdate>({
     resolver: zodResolver(changeUsernameSchema),
-    mode: 'onChange',
+    mode: 'onBlur',
   })
 
   const passwordForm = useForm<UserPasswordUpdate>({
     resolver: zodResolver(changePasswordSchema),
-    mode: 'onChange',
+    mode: 'onBlur',
   })
 
   const deleteMutation = useDeleteUserMutation()
-
   const usernameMutation = useUsernameMutation()
-
   const passwordMutation = usePasswordMutation()
 
   useEffect(() => {
-    query.refetch()
-    logout()
-  }, [deleteMutation.isSuccess])
+    if (deleteMutation.isSuccess) {
+      logout()
+      deleteMutation.reset()
+    }
+  }, [deleteMutation.isSuccess, logout, deleteMutation])
 
   useEffect(() => {
-    setActiveModal(null)
-    query.refetch()
-    usernameForm.reset()
-  }, [usernameMutation.isSuccess])
+    if (usernameMutation.isSuccess) {
+      setActiveModal(null)
+      usernameForm.reset()
+      usernameMutation.reset()
+      query.refetch()
+    }
+  }, [usernameMutation.isSuccess, usernameForm, usernameMutation])
 
   useEffect(() => {
-    setActiveModal(null)
-    query.refetch()
-    passwordForm.reset()
-  }, [passwordMutation.isSuccess])
+    if (passwordMutation.isSuccess) {
+      setActiveModal(null)
+      passwordForm.reset()
+      passwordMutation.reset()
+    }
+  }, [passwordMutation.isSuccess, passwordForm, passwordMutation])
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {

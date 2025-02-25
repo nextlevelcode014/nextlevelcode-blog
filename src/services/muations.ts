@@ -1,7 +1,7 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { useMutation } from '@tanstack/react-query'
 import { apiService } from './api'
 
-export function useLoginMuation() {
+export function useLoginMutation() {
   return useMutation({
     mutationFn: apiService.loginUser,
   })

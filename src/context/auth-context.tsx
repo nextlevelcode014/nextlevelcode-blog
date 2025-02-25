@@ -1,4 +1,3 @@
-// context/AuthContext.tsx
 'use client'
 
 import {
@@ -24,7 +23,7 @@ const AuthContext = createContext<AuthContextType | null>(null)
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const router = useRouter()
-  const [token, setToken] = useState<string | null>('ok')
+  const [token, setToken] = useState<string | null>('')
 
   const query = useQuery({
     queryKey: ['user', token],
@@ -41,14 +40,15 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   }, [])
 
   const login = (newToken: string) => {
+    console.log(newToken)
     localStorage.setItem('token', newToken)
     setToken(newToken)
+    router.push('/')
   }
 
   const logout = () => {
     localStorage.removeItem('token')
     setToken(null)
-    query.refetch()
     router.push('/')
   }
 
@@ -69,7 +69,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 export const useAuth = () => {
   const context = useContext(AuthContext)
   if (!context) {
-    throw new Error('useAuth deve ser usado dentro de um AuthProvider')
+    throw new Error('useAuth must be used inside an AuthProvider')
   }
   return context
 }

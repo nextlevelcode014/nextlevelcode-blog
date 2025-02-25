@@ -9,9 +9,6 @@ import { AuthProvider } from '@/context/auth-context'
 export const metadata: Metadata = {
   title: 'NextLevelCodeBlog',
   description: 'Next Level Code Blog sobre Linux, programação e Bitcoin',
-  icons: {
-    icon: '/assets/favicon.ico',
-  },
   openGraph: {
     title: 'NextLevelCodeBlog',
     description: 'Blog educacional sobre Linux, programação e Bitcoin',

@@ -40,7 +40,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   }, [])
 
   const login = (newToken: string) => {
-    console.log(newToken)
     localStorage.setItem('token', newToken)
     setToken(newToken)
     router.push('/')

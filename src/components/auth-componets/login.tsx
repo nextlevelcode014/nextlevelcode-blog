@@ -7,9 +7,7 @@ import { FaLock, FaUser } from 'react-icons/fa'
 import { loginSchema } from '@/services/schemas'
 import Link from 'next/link'
 import LoginForm from './login-form'
-import { useRouter } from 'next/navigation'
 import { useAuth } from '@/context/auth-context'
-import { useEffect } from 'react'
 import { useLoginMutation } from '@/services/muations'
 
 export default function Login() {
@@ -36,15 +34,6 @@ export default function Login() {
       return
     }
   }
-
-  // useEffect(() => {
-  //   // Fecha o menu de usuário se estiver aberto
-  //   return () => {
-  //     if (loginMutation.isError) {
-  //       loginMutation.reset()
-  //     }
-  //   }
-  // }, [])
 
   return (
     <div className="bg-[#242424] p-4 sm:p-6 rounded-lg w-full max-w-[90vw] mx-auto mt-8 sm:max-w-md">

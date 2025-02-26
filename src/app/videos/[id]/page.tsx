@@ -10,7 +10,6 @@ export default function VideoPage({
   params: Promise<{ id: string }>
 }) {
   const { id } = use(params)
-  console.log(id)
   const search = useSearchParams()
   const query = search.get('categories')
   return <WatchVideo youtubeId={id} query={query} />

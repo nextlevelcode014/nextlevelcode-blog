@@ -130,10 +130,10 @@ export const apiService = {
     handleRequest(apiClient.delete(`/posts/delete-comment/${commentId}`)),
 
   getVideos: (): ApiResponse<Videos[]> =>
-    handleRequest(apiClient.get('/posts/videos')),
+    handleRequest(apiClient.get('/videos/videos')),
 
   getVideo: (youtubeId: string): ApiResponse<GetVideo> =>
-    handleRequest(apiClient.get(`/posts/get-video/${youtubeId}`)),
+    handleRequest(apiClient.get(`/videos/get-video/${youtubeId}`)),
 
   loginUser: (data: LoginData): ApiResponse<LoginResponse> =>
     handleRequest(apiClient.post('/auth/login', data)),

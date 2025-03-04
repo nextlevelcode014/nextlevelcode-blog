@@ -3,6 +3,8 @@ import { POST_QUERY } from '@/sanity/lib/queries'
 import NotFound from '@/app/not-found'
 import { Post } from '@/components/post-componets/post'
 
+export const revalidate = 3600
+
 export default async function Page({
   params,
 }: {

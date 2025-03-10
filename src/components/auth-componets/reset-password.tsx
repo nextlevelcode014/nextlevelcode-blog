@@ -65,7 +65,8 @@ export default function ResetPasswordPage() {
                   type="password"
                   id="newPassword"
                   {...register('newPassword')}
-                  placeholder="New password"
+                  disabled={mutation.isPending}
+		  placeholder="New password"
                   className="appearance-none rounded-none relative block w-full px-3 py-2 border bg-[#242424] border-gray-300 placeholder-gray-500 text-gray-300 rounded-t-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
                 />
                 <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">

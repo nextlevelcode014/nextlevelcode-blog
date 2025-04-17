@@ -100,12 +100,12 @@ export interface RegisterData {
   name: string
   email: string
   password: string
-  confirmPassword: string
+  passwordConfirm: string
 }
 export interface ResetPasswordData {
   token: string
   newPassword: string
-  confirmPassword: string
+  passwordConfirm: string
 }
 
 export interface UserLoginResponse {

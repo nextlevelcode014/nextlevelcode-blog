@@ -1,7 +1,7 @@
 import { stylesComponets } from '@/types/style'
 import Image from 'next/image'
 import Link from 'next/link'
-import Me from '../../../public/assets/me.webp'
+import Me from '../../../public/assets/me.png'
 
 export default function AboutPage() {
   return (

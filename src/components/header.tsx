@@ -192,9 +192,9 @@ export const Header = () => {
           ) : (
             <li className="flex items-center gap-6 border-l border-gray-700 pl-4">
               <Link
-                href="/auth/login"
+                href="/under-construction"
                 className={`flex items-center gap-2 transition-all ${
-                  pathname === '/auth/login'
+                  pathname === '/under-construction'
                     ? 'text-blue-400 font-bold'
                     : 'text-gray-300 hover:text-blue-400'
                 }`}
@@ -203,9 +203,9 @@ export const Header = () => {
                 Login
               </Link>
               <Link
-                href="/auth/register"
+                href="/under-construction"
                 className={`flex items-center gap-2 transition-all ${
-                  pathname === '/auth/register'
+                  pathname === '/under-construction'
                     ? 'text-blue-400 font-bold'
                     : 'text-gray-300 hover:text-blue-400'
                 }`}

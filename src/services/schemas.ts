@@ -9,7 +9,7 @@ export const registerSchema = z
   .object({
     name: z.string().min(3, 'The name must be at least 3 characters long!'),
     email: z.string().email('Invalid e-mail!'),
-    password: z
+    password_hash: z
       .string()
       .min(6, 'Password must be at least 6 characters long!')
       .regex(/[A-Z]/, 'The password must contain at least one capital letter!')
@@ -20,7 +20,7 @@ export const registerSchema = z
       ),
     passwordConfirm: z.string(),
   })
-  .refine((data) => data.password === data.passwordConfirm, {
+  .refine((data) => data.password_hash === data.confirmPassword, {
     message: "Passwords don't match!",
     path: ['passwordConfirm'],
   })

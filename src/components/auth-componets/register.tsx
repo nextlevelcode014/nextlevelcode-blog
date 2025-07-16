@@ -26,7 +26,7 @@ export default function Register() {
 
   const registerMutation = useRegisterMutation()
 
-  const handleRegister = (data: RegisterData) => {
+  const handleRegister = async (data: RegisterData) => {
     registerMutation.mutate(data)
   }
 

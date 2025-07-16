@@ -1,6 +1,6 @@
 'use client'
 
-import Profile from '../../public/assets/profile.jpg'
+import Logo from '../../public/assets/logo.png'
 import Image from 'next/image'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
@@ -122,8 +122,8 @@ export const Header = () => {
       >
         <div className="flex items-center gap-1">
           <Image
-            src={Profile}
-            alt="Profile Image"
+            src={Logo}
+            alt="Logo Image"
             width={40}
             height={40}
             className="rounded-full md:w-12 md:h-12"

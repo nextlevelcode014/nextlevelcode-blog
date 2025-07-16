@@ -64,15 +64,15 @@ export default function RegisterForm({
         <FaLock className="absolute top-3.5 left-3 text-gray-400 text-sm sm:text-base" />
         <input
           type="password"
-          {...register('password')}
+          {...register('password_hash')}
           placeholder="Password"
           autoComplete="new-password"
           disabled={registerMutation.isPending}
           className="w-full pl-9 sm:pl-10 pr-4 py-2.5 text-sm sm:text-base bg-[#1a1a1a] rounded-lg focus:ring-2 focus:ring-teal-500 outline-none placeholder-gray-500"
         />
-        {errors.password && (
+        {errors.password_hash && (
           <p className="text-xs sm:text-sm text-red-500 mt-1 ml-1">
-            {errors.password.message}
+            {errors.password_hash.message}
           </p>
         )}
       </div>

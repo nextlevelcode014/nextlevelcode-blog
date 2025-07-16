@@ -1,4 +1,3 @@
-// app/reset-password/page.tsx
 'use client'
 
 import { useForm } from 'react-hook-form'
@@ -65,6 +64,7 @@ export default function ResetPasswordPage() {
                   type="password"
                   id="newPassword"
                   {...register('newPassword')}
+                  disabled={mutation.isPending}
                   placeholder="New password"
                   className="appearance-none rounded-none relative block w-full px-3 py-2 border bg-[#242424] border-gray-300 placeholder-gray-500 text-gray-300 rounded-t-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
                 />
@@ -79,14 +79,14 @@ export default function ResetPasswordPage() {
               )}
             </div>
             <div>
-              <label htmlFor="confirmPassword" className="sr-only">
+              <label htmlFor="passwordConfirm" className="sr-only">
                 Confirm password
               </label>
               <div className="relative">
                 <input
                   type="password"
-                  id="confirmPassword"
-                  {...register('confirmPassword')}
+                  id="passwordConfirm"
+                  {...register('passwordConfirm')}
                   placeholder="Confirm password"
                   className="appearance-none rounded-none relative block w-full px-3 py-2 border bg-[#242424] border-gray-300 placeholder-gray-500 text-gray-300 rounded-b-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
                 />
@@ -94,9 +94,9 @@ export default function ResetPasswordPage() {
                   <FaLock className="h-5 w-5 text-gray-400" />
                 </div>
               </div>
-              {errors.confirmPassword && (
+              {errors.passwordConfirm && (
                 <p className="text-sm text-red-500 mt-1">
-                  {errors.confirmPassword.message}
+                  {errors.passwordConfirm.message}
                 </p>
               )}
             </div>

@@ -1,4 +1,3 @@
-// src/schemas/auth.ts
 import { z } from 'zod'
 
 export const loginSchema = z.object({
@@ -19,11 +18,11 @@ export const registerSchema = z
         /[!@#$%^&*(),.?":{}|<>]/,
         'The password must contain at least one special character!',
       ),
-    confirmPassword: z.string(),
+    passwordConfirm: z.string(),
   })
   .refine((data) => data.password_hash === data.confirmPassword, {
     message: "Passwords don't match!",
-    path: ['confirmPassword'],
+    path: ['passwordConfirm'],
   })
 
 export const forgotPasswordSchema = z.object({
@@ -35,11 +34,11 @@ export const resetPasswordSchema = z
     newPassword: z
       .string()
       .min(6, 'Password must be at least 6 characters long!'),
-    confirmPassword: z.string(),
+    passwordConfirm: z.string(),
   })
-  .refine((data) => data.newPassword === data.confirmPassword, {
+  .refine((data) => data.newPassword === data.passwordConfirm, {
     message: "Passwords don't match!",
-    path: ['confirmPassword'],
+    path: ['passwordConfirm'],
   })
 
 export const changePasswordSchema = z

@@ -138,7 +138,6 @@ export const apiService = {
     handleRequest(
       apiClient.post('/auth/register', {
         ...data,
-        passwordConfirm: data.confirmPassword,
       }),
     ),
 

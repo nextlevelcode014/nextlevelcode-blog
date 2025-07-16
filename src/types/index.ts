@@ -107,7 +107,7 @@ export interface RegisterData {
 export interface ResetPasswordData {
   token: string
   newPassword: string
-  confirmPassword: string
+  passwordConfirm: string
 }
 
 export interface UserLoginResponse {

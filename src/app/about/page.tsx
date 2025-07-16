@@ -1,7 +1,7 @@
 import { stylesComponets } from '@/types/style'
 import Image from 'next/image'
 import Link from 'next/link'
-import Me from '../../../public/assets/me.webp'
+import Logo from '../../../public/assets/logo.png'
 
 export default function AboutPage() {
   return (
@@ -11,8 +11,8 @@ export default function AboutPage() {
           <div className="relative group hover:scale-[1.02] transition-transform duration-300">
             <div className="absolute inset-0 bg-blue-500/20 rounded-xl lg:rounded-2xl transform rotate-2 group-hover:rotate-1 transition-all" />
             <Image
-              src={Me}
-              alt="Profile Photo"
+              src={Logo}
+              alt="Logo Photo"
               width={600}
               height={800}
               className="rounded-xl lg:rounded-2xl relative z-10 object-cover shadow-lg lg:shadow-2xl w-full h-auto"
@@ -33,15 +33,6 @@ export default function AboutPage() {
                 className={`${stylesComponets.socialLink} px-4 py-2 text-sm sm:text-base`}
               >
                 GitHub
-              </Link>
-              <Link
-                href="https://x.com/next_level_code"
-                target="_blank"
-                rel="noopener noreferrer"
-                replace
-                className={`${stylesComponets.socialLink} px-4 py-2 text-sm sm:text-base`}
-              >
-                X
               </Link>
             </div>
           </div>

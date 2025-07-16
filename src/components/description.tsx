@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import { stylesComponets } from '@/types/style'
-import BitImage from '../../public/assets/homeimage.webp'
+import HomeLogo from '../../public/assets/home-logo.png'
 
 export default function Description() {
   return (
@@ -68,10 +68,10 @@ export default function Description() {
         <div className="md:w-1/2 relative group mt-12 md:mt-0">
           <div className="relative overflow-hidden rounded-xl lg:rounded-2xl border-2 sm:border-4 border-blue-500/30 shadow-xl lg:shadow-2xl">
             <Image
-              src={BitImage}
+              src={HomeLogo}
               alt="Ilustração de tecnologia blockchain"
               width={800}
-              height={600}
+              height={800}
               className="object-cover w-full h-auto aspect-video transform group-hover:scale-105 transition-transform duration-500"
               sizes="(max-width: 768px) 100vw, 50vw"
             />

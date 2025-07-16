@@ -3,7 +3,7 @@
 import { LoginData } from '@/types'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
-import { FaLock, FaUser } from 'react-icons/fa'
+import { FaLock } from 'react-icons/fa'
 import { loginSchema } from '@/services/schemas'
 import Link from 'next/link'
 import LoginForm from './login-form'
@@ -24,14 +24,10 @@ export default function Login() {
   const { login } = useAuth()
 
   const handleLogin = async (data: LoginData) => {
-    try {
-      const result = await loginMutation.mutateAsync(data)
+    const result = await loginMutation.mutateAsync(data)
 
-      if (result.token) {
-        login(result.token)
-      }
-    } catch (error) {
-      return
+    if (result.token) {
+      login(result.token)
     }
   }
 

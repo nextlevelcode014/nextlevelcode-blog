@@ -3,7 +3,6 @@ import './globals.css'
 import { Metadata } from 'next'
 import Provider from '@/services/provider'
 import { ReactNode } from 'react'
-import { Header } from '@/components/header'
 import { AuthProvider } from '@/context/auth-context'
 
 export const metadata: Metadata = {
@@ -23,13 +22,10 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       <body className="bg-black">
         <div className="flex flex-col min-h-screen bg-[#1a1a1a] text-gray-100">
           <Provider>
-            <AuthProvider>
-              <Header />
-              {children}
-            </AuthProvider>
+            <AuthProvider>{children}</AuthProvider>
           </Provider>
-          <Footer />
         </div>
+        <Footer />
       </body>
     </html>
   )

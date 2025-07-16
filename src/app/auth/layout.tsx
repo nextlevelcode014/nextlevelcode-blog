@@ -1,4 +1,4 @@
-import styles from './auth.module.css'
+import UnderConstruction from '@/components/error-componets/under-construction'
 import ActiveSegment from './active-segment'
 import Provider from '@/services/provider'
 
@@ -11,10 +11,5 @@ export default async function AuthLayout({
   login: React.ReactNode
   register: React.ReactNode
 }) {
-  return (
-    <Provider>
-      <ActiveSegment register={register} login={login} />
-      {children}
-    </Provider>
-  )
+  return <UnderConstruction />
 }

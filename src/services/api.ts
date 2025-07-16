@@ -6,6 +6,7 @@ import {
   LoginData,
   LoginResponse,
   PostCommentWithComments,
+  recaptchaResponse,
   RegisterData,
   ResetPasswordData,
   UpdateComment,
@@ -17,23 +18,19 @@ import {
 } from '../types'
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL
-const API_KEY = process.env.API_KEY
 
 interface ApiErrorResponse {
   message: string
 }
 type CustomAxiosError = AxiosError<ApiErrorResponse>
-if (!API_URL || !API_KEY) {
-  throw new Error(
-    'Missing required environment variables: NEXT_PUBLIC_API_URL and API_KEY must be set',
-  )
+if (!API_URL) {
+  throw new Error('Missing required environment variables: NEXT_PUBLIC_API_URL')
 }
 
 const apiClient: AxiosInstance = axios.create({
   baseURL: API_URL,
   headers: {
     'Content-Type': 'application/json',
-    'x-api-key': API_KEY,
   },
 })
 
@@ -171,6 +168,12 @@ export const apiService = {
       apiClient.put('/users/update-username', {
         name: data.name,
         password: data.password,
+      }),
+    ),
+  verifyReCaptcha: (token: string): ApiResponse<recaptchaResponse> =>
+    handleRequest(
+      apiClient.post('/verify-captcha', {
+        token: token,
       }),
     ),
 }

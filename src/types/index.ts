@@ -61,6 +61,7 @@ export interface Videos {
 export interface LoginData {
   email: string
   password: string
+  reCaptchaToken: string
 }
 export interface LoginResponse {
   status: string
@@ -99,8 +100,9 @@ export interface GetVideo {
 export interface RegisterData {
   name: string
   email: string
-  password: string
+  password_hash: string
   confirmPassword: string
+  recaptchaToken: string
 }
 export interface ResetPasswordData {
   token: string
@@ -122,4 +124,13 @@ export interface UserPasswordUpdate {
 export interface UsernameUpdate {
   name: String
   password: String
+}
+
+export interface recaptchaResponse {
+  success: boolean
+  score: number
+  action: string
+  challenge_ts: string
+  hostname: string
+  errorCodes: string
 }
